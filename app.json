@@ -1,0 +1,51 @@
+{
+  "expo": {
+    "name": "explore-app",
+    "slug": "explore-app",
+    "scheme": "explore-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+<<<<<<< HEAD
+      },
+      "package": "com.baone.exploreapp"
+=======
+      }
+>>>>>>> 332a7be (fix)
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+<<<<<<< HEAD
+    "plugins": [
+      "expo-router",
+      "@react-native-google-signin/google-signin"
+    ],
+=======
+    "plugins": ["expo-router", "@react-native-google-signin/google-signin"],
+>>>>>>> 332a7be (fix)
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "8c594839-932f-4e82-affb-d6d2d7e2e948"
+      }
+    }
+  }
+}
