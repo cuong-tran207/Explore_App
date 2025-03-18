@@ -1,17 +1,4 @@
 import { View, Text } from "react-native";
-<<<<<<< HEAD
-import React from "react";
-
-const Favorite = () => {
-  return (
-    <View>
-      <Text>Favorite</Text>
-    </View>
-  );
-};
-
-export default Favorite;
-=======
 import { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -23,9 +10,9 @@ import Animated, {
   interpolate,
 } from "react-native-reanimated";
 import { useDebounce } from "../../hooks/useDebounce";
-import { ExploreCard } from "../../components/ExploreCard";
-import { favorites } from "../../utils/TestData";
-import SearchBar from "../../components/SearchBar";
+import { ExploreCard } from "@components/ExploreCard";
+import { favorites } from "@utils/TestData";
+import SearchBar from "@components/SearchBar";
 
 export default function Favorite() {
   const [search, setSearch] = useState("");
@@ -142,4 +129,3 @@ export default function Favorite() {
     </SafeAreaView>
   );
 }
->>>>>>> 332a7be (fix)

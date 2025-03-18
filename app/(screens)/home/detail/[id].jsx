@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState, useRef } from "react";
 import {
   View,
   Text,
@@ -6,25 +6,29 @@ import {
   TouchableOpacity,
   ScrollView,
   Platform,
-  StatusBar,
+  PanResponder,
+  Animated,
+  Dimensions,
 } from "react-native";
-import Animated, {
+import AnimatedReanimated, {
   FadeIn,
   FadeInDown,
   FadeOut,
   FadeOutUp,
 } from "react-native-reanimated";
-import { Modal, Portal, PaperProvider } from "react-native-paper";
+import { Modal, Portal } from "react-native-paper";
 import { BlurView } from "expo-blur";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
-import { images } from "../../../../utils/TestData";
+import { images } from "@utils/TestData";
 import { useLocalSearchParams, useNavigation } from "expo-router";
-import { Header } from "../../../../components/DetailPlaceHeader";
-import CreatePlan from "../../../../components/Dialog/createPlan";
+import { Header } from "@components/DetailPlaceHeader";
+import CreatePlan from "@components/Dialog/createPlan";
+import Comment from "./comment/[id]";
 
-export default function App() {
-  const [visible, setVisible] = React.useState(false);
-
+export default function Detail() {
+  const [visible, setVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
   const containerStyle = { backgroundColor: "white", padding: 20 };
@@ -33,6 +37,42 @@ export default function App() {
   const [selectedImage, setSelectedImage] = useState(images[0]);
   const [isFavorited, setIsFavorited] = useState(false);
   const navigation = useNavigation();
+
+  // Thêm Animated.Value để theo dõi vị trí Y của modal
+  const panY = useRef(new Animated.Value(0)).current;
+  const screenHeight = Dimensions.get("window").height;
+  const closeModalWithAnimation = () => {
+    Animated.timing(panY, {
+      toValue: screenHeight, // Di chuyển modal xuống hết màn hình
+      duration: 300, // Thời gian animation (300ms)
+      useNativeDriver: true, // Dùng native driver để mượt mà hơn
+    }).start(() => {
+      setModalVisible(false); // Tắt modal sau khi animation xong
+      panY.setValue(0); // Reset vị trí về 0
+    });
+  };
+
+  // Xử lý vuốt modal
+  const panResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: (evt, gestureState) => {
+        return gestureState.dy > 20; // Chỉ cho phép vuốt xuống
+      },
+      onPanResponderMove: (evt, gestureState) => {
+        panY.setValue(gestureState.dy > 0 ? gestureState.dy : 0); // Modal di chuyển theo tay
+      },
+      onPanResponderRelease: (evt, gestureState) => {
+        if (gestureState.dy > 400) {
+          closeModalWithAnimation();
+        } else {
+          Animated.spring(panY, {
+            toValue: 0,
+            useNativeDriver: true,
+          }).start();
+        }
+      },
+    })
+  ).current;
 
   return (
     <Fragment>
@@ -43,13 +83,15 @@ export default function App() {
           isFavorited={isFavorited}
         />
         {selectedImage && (
-          <Animated.Image
+          <AnimatedReanimated.Image
             key={selectedImage.uri}
             entering={
-              Platform.OS == "ios" ? FadeIn.duration(700) : FadeIn.duration(500)
+              Platform.OS === "ios"
+                ? FadeIn.duration(700)
+                : FadeIn.duration(500)
             }
             exiting={
-              Platform.OS == "ios"
+              Platform.OS === "ios"
                 ? FadeOut.duration(700)
                 : FadeOut.duration(500)
             }
@@ -65,7 +107,7 @@ export default function App() {
         <BlurView
           intensity={Platform.OS === "ios" ? 15 : 50}
           tint={Platform.OS === "ios" ? "light" : "dark"}
-          className="mx-6 px-4 py-5 rounded-xl "
+          className="mx-6 px-4 py-5 rounded-xl"
           style={{ overflow: "hidden", borderRadius: 20 }}
         >
           <View className="w-full">
@@ -97,7 +139,7 @@ export default function App() {
               ))}
             </ScrollView>
           </View>
-          <Animated.Text
+          <AnimatedReanimated.Text
             key={selectedImage.id}
             entering={FadeInDown.duration(350).springify()}
             exiting={FadeOutUp.duration(300)}
@@ -105,34 +147,77 @@ export default function App() {
             style={{ textAlign: "justify" }}
           >
             {selectedImage.description}
-          </Animated.Text>
+          </AnimatedReanimated.Text>
+          <View
+            style={{
+              flexDirection: "row",
+              gap: 12,
+              width: "100%",
+              marginTop: 12,
+            }}
+          >
+            <TouchableOpacity
+              activeOpacity={0.7}
+              style={{
+                backgroundColor: "white",
+                borderRadius: 12,
+                flex: 0.9,
+                padding: 10,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              onPress={() => setModalVisible(true)}
+            >
+              <Text style={{ fontWeight: "500" }}>Bình luận</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              activeOpacity={0.7}
+              style={{
+                backgroundColor: "white",
+                borderRadius: 12,
+                flex: 0.1,
+                padding: 10,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              onPress={showModal}
+            >
+              <AntDesign name="calendar" size={24} color="black" />
+            </TouchableOpacity>
+          </View>
         </BlurView>
       </View>
-      <TouchableOpacity
-        style={{
-          position: "absolute",
-          bottom: 300,
-          right: 20,
-          backgroundColor: "#fff",
-          boxShadow:
-            "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",
-        }}
-        className="px-5 py-4 rounded-full"
-        onPress={showModal}
-      >
-        <Text
-          style={{
-            color: "#000",
-            fontSize: 14,
-            fontWeight: "bold",
-          }}
-        >
-          +
-        </Text>
-      </TouchableOpacity>
-      <Modal visible={visible} onDismiss={hideModal} animationType="slide">
-        <CreatePlan onDismiss={hideModal} />
-      </Modal>
+      <Portal>
+        <Modal visible={visible} onDismiss={hideModal} animationType="slide">
+          <CreatePlan onDismiss={hideModal} />
+        </Modal>
+        <Modal visible={modalVisible} transparent={true} animationType="none">
+          <Animated.View
+            style={{
+              backgroundColor: "white",
+              height: "100%",
+              width: "100%",
+              borderTopLeftRadius: 20,
+              borderTopRightRadius: 20,
+              transform: [{ translateY: panY }], // Modal trôi theo panY
+            }}
+            {...panResponder.panHandlers} // Gắn sự kiện vuốt
+          >
+            <View
+              style={{
+                width: 60,
+                height: 5,
+                backgroundColor: "gray",
+                borderRadius: 2.5,
+                alignSelf: "center",
+                marginVertical: 10,
+              }}
+            />
+            <Comment></Comment>
+          </Animated.View>
+        </Modal>
+      </Portal>
     </Fragment>
   );
 }

@@ -6,18 +6,6 @@ import {
   Image,
   Animated,
   Dimensions,
-<<<<<<< HEAD
-  StatusBar,
-  StyleSheet,
-  Platform,
-} from "react-native";
-import { useNavigation } from "expo-router";
-import { AntDesign } from "@expo/vector-icons";
-import { BlurView } from "expo-blur";
-
-const WelcomeScreen = () => {
-  const navigation = useNavigation();
-=======
   StyleSheet,
 } from "react-native";
 import { useNavigation, useRouter, useSegments } from "expo-router";
@@ -28,7 +16,6 @@ import useAuthStore from "../store/authStore";
 const WelcomeScreen = () => {
   const navigation = useNavigation();
   const router = useRouter();
->>>>>>> 332a7be (fix)
   const [currentIndex, setCurrentIndex] = useState(0);
   const fadeAnim = useRef(new Animated.Value(1)).current;
   const slideAnim = useRef(new Animated.Value(0)).current;
@@ -39,15 +26,6 @@ const WelcomeScreen = () => {
 
   const { width, height } = Dimensions.get("screen");
 
-<<<<<<< HEAD
-  const images = [
-    require("../assets/image/anh4.jpg"),
-    require("../assets/image/anh1.jpg"),
-    require("../assets/image/anh2.jpg"),
-  ];
-
-=======
->>>>>>> 332a7be (fix)
   const slides = [
     {
       image: require("../assets/image/anh4.jpg"),
@@ -60,52 +38,38 @@ const WelcomeScreen = () => {
   ];
 
   const isLastSlide = currentIndex === slides.length - 1;
-<<<<<<< HEAD
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      navigation.navigate("(tab)");
-=======
-    const initializeTokenManager = useAuthStore(
-      (state) => state.initializeTokenManager
-    );
+  const initializeTokenManager = useAuthStore(
+    (state) => state.initializeTokenManager
+  );
 
   const { token, user } = useAuthStore();
   const segments = useSegments();
   const [isReady, setIsReady] = useState(false);
 
-  useEffect(() => {
-    if (!isReady) {
-      setIsReady(true);
-      return;
-    }
+  // useEffect(() => {
+  //   if (!isReady) {
+  //     setIsReady(true);
+  //     return;
+  //   }
 
-    const inAuthGroup = segments[0] === "(auth)";
-    let backHandler;
-    if (!token && !user && !inAuthGroup) {
-      router.replace("/login");
-    } else if (token && user && inAuthGroup) {
-      router.replace("/home");
-    }
-  }, [isReady, token, user, segments]);
+  //   const inAuthGroup = segments[0] === "(auth)";
+  //   let backHandler;
+  //   if (!token && !user && !inAuthGroup) {
+  //     router.replace("/login");
+  //   } else if (token && user && inAuthGroup) {
+  //     router.replace("/home");
+  //   }
+  // }, [isReady, token, user, segments]);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      router.navigate("/login");
->>>>>>> 332a7be (fix)
-    }, 0);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     router.navigate("/login");
+  //   }, 0);
 
-    return () => clearTimeout(timer);
-  }, []);
-<<<<<<< HEAD
-  useEffect(() => {
-    // if (navigation != null) {
-    navigation.navigate("(tab)");
-    // }
-=======
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   useEffect(() => {
->>>>>>> 332a7be (fix)
     if (isLastSlide) {
       const finalWidth = 130;
 
@@ -199,12 +163,6 @@ const WelcomeScreen = () => {
         setCurrentIndex((prev) => prev + 1);
       });
     } else {
-<<<<<<< HEAD
-      navigation.navigate("(tab)");
-    }
-  };
-
-=======
       router.navigate("login");
     }
   };
@@ -213,7 +171,6 @@ const WelcomeScreen = () => {
     initializeTokenManager();
   }, []);
 
->>>>>>> 332a7be (fix)
   return (
     <View style={{ flex: 1 }}>
       <BlurView intensity={90} tint="light" style={StyleSheet.absoluteFill} />
