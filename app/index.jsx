@@ -38,28 +38,36 @@ const WelcomeScreen = () => {
   ];
 
   const isLastSlide = currentIndex === slides.length - 1;
-    const initializeTokenManager = useAuthStore(
-      (state) => state.initializeTokenManager
-    );
+  const initializeTokenManager = useAuthStore(
+    (state) => state.initializeTokenManager
+  );
 
   const { token, user } = useAuthStore();
   const segments = useSegments();
   const [isReady, setIsReady] = useState(false);
 
-  useEffect(() => {
-    if (!isReady) {
-      setIsReady(true);
-      return;
-    }
+  // useEffect(() => {
+  //   if (!isReady) {
+  //     setIsReady(true);
+  //     return;
+  //   }
 
-    const inAuthGroup = segments[0] === "(auth)";
-    let backHandler;
-    if (!token && !user && !inAuthGroup) {
-      router.replace("/login");
-    } else if (token && user && inAuthGroup) {
-      router.replace("/home");
-    }
-  }, [isReady, token, user, segments]);
+  //   const inAuthGroup = segments[0] === "(auth)";
+  //   let backHandler;
+  //   if (!token && !user && !inAuthGroup) {
+  //     router.replace("/login");
+  //   } else if (token && user && inAuthGroup) {
+  //     router.replace("/home");
+  //   }
+  // }, [isReady, token, user, segments]);
+
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     router.navigate("/login");
+  //   }, 0);
+
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {

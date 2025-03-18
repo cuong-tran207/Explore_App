@@ -10,9 +10,9 @@ import Animated, {
   interpolate,
 } from "react-native-reanimated";
 import { useDebounce } from "../../hooks/useDebounce";
-import { ExploreCard } from "../../components/ExploreCard";
-import { favorites } from "../../utils/TestData";
-import SearchBar from "../../components/SearchBar";
+import { ExploreCard } from "@components/ExploreCard";
+import { favorites } from "@utils/TestData";
+import SearchBar from "@components/SearchBar";
 
 export default function Favorite() {
   const [search, setSearch] = useState("");

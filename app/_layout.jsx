@@ -9,6 +9,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import "../global.css";
 import { StatusBar } from "expo-status-bar";
 import useAuthStore from "../store/authStore";
+import { PaperProvider } from "react-native-paper";
 
 const RootLayout = () => {
   const { token, user } = useAuthStore();
@@ -30,26 +31,21 @@ const RootLayout = () => {
   }, [isReady, token, user, segments]);
 
   return (
-    <Fragment>
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          presentation: "card",
-          animation: "slide_from_right",
-          animationTypeForReplace: "push",
-          gestureEnabled: true,
-          gestureDirection: "horizontal",
-          fullScreenGestureEnabled: true,
-          animationDuration: 200,
-          tabBarHideOnKeyboard: true,
-        }}
-      >
-        <Stack.Screen
-          name="(tab)"
-          options={{
+    <PaperProvider>
+      <Fragment>
+        <Stack
+          screenOptions={{
             headerShown: false,
-            gestureEnabled: false,
+            presentation: "card",
+            animation: "slide_from_right",
+            animationTypeForReplace: "push",
+            gestureEnabled: true,
+            gestureDirection: "horizontal",
+            fullScreenGestureEnabled: true,
+            animationDuration: 200,
+            tabBarHideOnKeyboard: true,
           }}
+<<<<<<< HEAD
         ></Stack.Screen>
         <Stack.Screen
           name="index"
@@ -61,6 +57,28 @@ const RootLayout = () => {
       </Stack>
       <StatusBar barStyle="light-content" />
     </Fragment>
+=======
+        >
+          <Stack.Screen
+            name="(tab)"
+            options={{
+              headerShown: false,
+              gestureEnabled: false,
+            }}
+          ></Stack.Screen>
+
+          <Stack.Screen
+            name="index"
+            options={{
+              headerShown: false,
+              gestureEnabled: false,
+            }}
+          ></Stack.Screen>
+        </Stack>
+        <StatusBar barStyle="light-content" />
+      </Fragment>
+    </PaperProvider>
+>>>>>>> 9b8770eeab8d2dfec80e94bb5f534b9093cf40cd
   );
 };
 

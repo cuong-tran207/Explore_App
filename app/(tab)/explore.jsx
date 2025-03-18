@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import { useState, useEffect } from "react";
-import { explores } from "../../utils/TestData";
+import { explores } from "@utils/TestData";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import Animated, {
@@ -11,8 +11,8 @@ import Animated, {
   interpolate,
 } from "react-native-reanimated";
 import { useDebounce } from "../../hooks/useDebounce";
-import { ExploreCard } from "../../components/ExploreCard";
-import SearchBar from "../../components/SearchBar";
+import { ExploreCard } from "@components/ExploreCard";
+import SearchBar from "@components/SearchBar";
 
 export default function Explore() {
   const [search, setSearch] = useState("");

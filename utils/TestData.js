@@ -130,5 +130,41 @@ const favorites = [
     reviews: 456,
   },
 ];
+const initialComments = [
+  {
+    id: "1",
+    userName: "Ricky Smith",
+    userAvatar: "https://cdn-icons-png.flaticon.com/512/219/219983.png",
+    time: "4h",
+    content:
+      "I couldn't agree more, Alice! Morning workouts have been a game-changer for me. I feel so accomplished by the time I start work.",
+    upvotes: 1125,
+    replies: [
+      {
+        id: "1-1",
+        userName: "Daniel Hamilton",
+        userAvatar: "https://cdn-icons-png.flaticon.com/512/219/219983.png",
+        time: "1h",
+        content:
+          "Same here, Ricky! It's like a natural caffeine boost. What's your favorite morning exercise routine?",
+        upvotes: 0,
+      },
+    ],
+  },
+  {
+    id: "2",
+    userName: "David Elson",
+    userAvatar: "https://cdn-icons-png.flaticon.com/512/219/219983.png",
+    time: "1h",
+    content:
+      "I've just started morning workouts this week, and I already feel the difference. Any advice for a beginner like me?",
+    upvotes: 22,
+    replies: [],
+  },
+];
 
+<<<<<<< HEAD
 export { categories, tours, images, explores, favorites };
+=======
+export { categories, tours, images, explores, favorites, initialComments };
+>>>>>>> 9b8770eeab8d2dfec80e94bb5f534b9093cf40cd
