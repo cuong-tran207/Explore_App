@@ -1,12 +1,7 @@
 import { BlurView } from "expo-blur";
-<<<<<<< HEAD
-import { Text, TouchableOpacity, View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-=======
 import { Keyboard, Platform, Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
->>>>>>> 332a7be (fix)
 function TabBarIcon({ name, color }) {
   return <Ionicons size={24} name={name} color={color} />;
 }
@@ -20,19 +15,12 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
         return isFocused ? "compass" : "compass-outline";
       case "favorite":
         return isFocused ? "heart" : "heart-outline";
-<<<<<<< HEAD
-      case "settings":
-        return isFocused ? "settings" : "settings-outline";
-=======
       case "profile":
         return isFocused ? "person" : "person-outline";
->>>>>>> 332a7be (fix)
       default:
         return "circle";
     }
   };
-<<<<<<< HEAD
-=======
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
   useEffect(() => {
@@ -58,7 +46,6 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
   if (isKeyboardVisible) {
     return null;
   }
->>>>>>> 332a7be (fix)
 
   return (
     <BlurView
