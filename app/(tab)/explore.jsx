@@ -1,17 +1,4 @@
 import { View, Text } from "react-native";
-<<<<<<< HEAD
-import React from "react";
-
-const Explore = () => {
-  return (
-    <View>
-      <Text>Explore</Text>
-    </View>
-  );
-};
-
-export default Explore;
-=======
 import { useState, useEffect } from "react";
 import { explores } from "../../utils/TestData";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -136,4 +123,3 @@ export default function Explore() {
     </SafeAreaView>
   );
 }
->>>>>>> 332a7be (fix)

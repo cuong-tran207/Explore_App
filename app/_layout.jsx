@@ -11,23 +11,23 @@ import { StatusBar } from "expo-status-bar";
 import useAuthStore from "../store/authStore";
 
 const RootLayout = () => {
-  // const { token, user } = useAuthStore();
-  // const segments = useSegments();
-  // const router = useRouter();
-  // const [isReady, setIsReady] = useState(false);
-  // useEffect(() => {
-  //   if (!isReady) {
-  //     setIsReady(true);
-  //     return;
-  //   }
+  const { token, user } = useAuthStore();
+  const segments = useSegments();
+  const router = useRouter();
+  const [isReady, setIsReady] = useState(false);
+  useEffect(() => {
+    if (!isReady) {
+      setIsReady(true);
+      return;
+    }
 
-  //   const inAuthGroup = segments[0] === "(auth)";
-  //   if (!token && !user && !inAuthGroup) {
-  //     router.replace("/login");
-  //   } else if (token && user && inAuthGroup) {
-  //     router.replace("/home");
-  //   }
-  // }, [isReady, token, user, segments]);
+    const inAuthGroup = segments[0] === "(auth)";
+    if (!token && !user && !inAuthGroup) {
+      router.replace("/login");
+    } else if (token && user && inAuthGroup) {
+      router.replace("/home");
+    }
+  }, [isReady, token, user, segments]);
 
   return (
     <Fragment>
@@ -51,7 +51,6 @@ const RootLayout = () => {
             gestureEnabled: false,
           }}
         ></Stack.Screen>
-
         <Stack.Screen
           name="index"
           options={{

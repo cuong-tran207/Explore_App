@@ -1,43 +1,48 @@
-import { View, Text, Image } from "react-native";
-import React, { useEffect } from "react";
+import { View, Text, Image, TouchableOpacity } from "react-native";
+import React, { use, useEffect } from "react";
 import SummaryPlan from "../../components/SummaryPlan";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
+import { Ionicons } from "@expo/vector-icons";
 import profile1 from "../../assets/image/profile1.jpg";
 import profile2 from "../../assets/image/profile2.jpg";
 import profile3 from "../../assets/image/profile3.jpg";
+import useAuthStore from "../../store/authStore";
+import { useRouter } from "expo-router";
 
 const Images = [profile1, profile2, profile3];
 const Setting = () => {
   const randomImage = Images[Math.floor(Math.random() * Images.length)];
-  console.log(randomImage);
-  // Khởi tạo giá trị animation cho từng phần tử
   const elements = [
     { translateY: useSharedValue(-50), opacity: useSharedValue(0), delay: 0 },
     { translateY: useSharedValue(-50), opacity: useSharedValue(0), delay: 200 },
     { translateY: useSharedValue(-50), opacity: useSharedValue(0), delay: 400 },
     { translateY: useSharedValue(-50), opacity: useSharedValue(0), delay: 600 },
   ];
-
+  const { user } = useAuthStore();
   useEffect(() => {
     elements.forEach((el) => {
       el.translateY.value = withTiming(0, { duration: 500, delay: el.delay });
       el.opacity.value = withTiming(1, { duration: 500, delay: el.delay });
     });
   }, []);
-
-  // Hàm tạo animation style
   const animatedStyle = (index) =>
     useAnimatedStyle(() => ({
       transform: [{ translateY: elements[index].translateY.value }],
       opacity: elements[index].opacity.value,
     }));
+  const { reset } = useAuthStore();
+  const router = useRouter();
+  const handleLogout = () => {
+    reset();
+    router.replace("/login");
+  };
 
   return (
-    <View className="flex-1">
+    <View className="flex-1 relative">
       <View className="relative flex flex-col w-full">
         {/* Ảnh nền */}
         <Animated.View
@@ -64,11 +69,9 @@ const Setting = () => {
           >
             <Image
               className="w-[150px] h-[150px] rounded-full"
-              source={{
-                uri: "https://res.cloudinary.com/dn6xdmqbl/image/upload/v1736754073/articles/vjaxchm2nnom2kv3qgqh.jpg",
-              }}
+              source={{ uri: user.avatar }}
             />
-            <Text className="text-[22px] mt-3 font-semibold">Bảo Phạm</Text>
+            <Text className="text-[22px] mt-3 font-semibold">{user.name}</Text>
           </Animated.View>
 
           <View className="flex justify-center items-center mt-[50px]">
@@ -77,11 +80,17 @@ const Setting = () => {
           </View>
         </Animated.View>
       </View>
-
       {/* Danh sách kế hoạch */}
       <Animated.View style={[animatedStyle(3), { flex: 1 }]}>
         <SummaryPlan />
       </Animated.View>
+      <TouchableOpacity
+        className="bg-white p-2 rounded-full absolute top-12 right-4"
+        style={{ alignSelf: "flex-start" }}
+        onPress={handleLogout}
+      >
+        <Ionicons className="" name="log-out" size={20} color="black" />
+      </TouchableOpacity>
     </View>
   );
 };

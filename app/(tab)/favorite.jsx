@@ -1,17 +1,4 @@
 import { View, Text } from "react-native";
-<<<<<<< HEAD
-import React from "react";
-
-const Favorite = () => {
-  return (
-    <View>
-      <Text>Favorite</Text>
-    </View>
-  );
-};
-
-export default Favorite;
-=======
 import { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -142,4 +129,3 @@ export default function Favorite() {
     </SafeAreaView>
   );
 }
->>>>>>> 332a7be (fix)

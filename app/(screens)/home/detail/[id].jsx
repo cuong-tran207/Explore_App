@@ -65,7 +65,7 @@ export default function App() {
         <BlurView
           intensity={Platform.OS === "ios" ? 15 : 50}
           tint={Platform.OS === "ios" ? "light" : "dark"}
-          className="mx-6 px-4 py-5 rounded-xl "
+          className="mx-6 px-4 py-5 rounded-xl"
           style={{ overflow: "hidden", borderRadius: 20 }}
         >
           <View className="w-full">
