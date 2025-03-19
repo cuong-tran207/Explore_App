@@ -45,19 +45,6 @@ const RootLayout = () => {
             animationDuration: 200,
             tabBarHideOnKeyboard: true,
           }}
-<<<<<<< HEAD
-        ></Stack.Screen>
-        <Stack.Screen
-          name="index"
-          options={{
-            headerShown: false,
-            gestureEnabled: false,
-          }}
-        ></Stack.Screen>
-      </Stack>
-      <StatusBar barStyle="light-content" />
-    </Fragment>
-=======
         >
           <Stack.Screen
             name="(tab)"
@@ -78,7 +65,6 @@ const RootLayout = () => {
         <StatusBar barStyle="light-content" />
       </Fragment>
     </PaperProvider>
->>>>>>> 9b8770eeab8d2dfec80e94bb5f534b9093cf40cd
   );
 };
 

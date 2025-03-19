@@ -1,5 +1,5 @@
 const categories = [
-  { id: 1, name: "Du lịch", icon: "map-outline" },
+  { id: 1, name: "Nhà hàng", icon: "map-outline" },
   { id: 2, name: "Khách sạn", icon: "bed-outline" },
 ];
 
@@ -163,8 +163,4 @@ const initialComments = [
   },
 ];
 
-<<<<<<< HEAD
-export { categories, tours, images, explores, favorites };
-=======
 export { categories, tours, images, explores, favorites, initialComments };
->>>>>>> 9b8770eeab8d2dfec80e94bb5f534b9093cf40cd
