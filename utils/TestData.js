@@ -1,5 +1,5 @@
 const categories = [
-  { id: 1, name: "Du lịch", icon: "map-outline" },
+  { id: 1, name: "Nhà hàng", icon: "map-outline" },
   { id: 2, name: "Khách sạn", icon: "bed-outline" },
 ];
 

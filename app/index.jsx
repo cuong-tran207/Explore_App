@@ -70,6 +70,14 @@ const WelcomeScreen = () => {
   // }, []);
 
   useEffect(() => {
+    const timer = setTimeout(() => {
+      router.navigate("/login");
+    }, 0);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
     if (isLastSlide) {
       const finalWidth = 130;
 
