@@ -38,21 +38,19 @@ export default function Detail() {
   const [isFavorited, setIsFavorited] = useState(false);
   const navigation = useNavigation();
 
-  // Thêm Animated.Value để theo dõi vị trí Y của modal
   const panY = useRef(new Animated.Value(0)).current;
   const screenHeight = Dimensions.get("window").height;
   const closeModalWithAnimation = () => {
     Animated.timing(panY, {
-      toValue: screenHeight, // Di chuyển modal xuống hết màn hình
-      duration: 300, // Thời gian animation (300ms)
-      useNativeDriver: true, // Dùng native driver để mượt mà hơn
+      toValue: screenHeight, 
+      duration: 300, 
+      useNativeDriver: true, 
     }).start(() => {
-      setModalVisible(false); // Tắt modal sau khi animation xong
-      panY.setValue(0); // Reset vị trí về 0
+      setModalVisible(false); 
+      panY.setValue(0); 
     });
   };
 
-  // Xử lý vuốt modal
   const panResponder = useRef(
     PanResponder.create({
       onMoveShouldSetPanResponder: (evt, gestureState) => {
