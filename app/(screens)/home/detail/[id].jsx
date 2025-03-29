@@ -34,6 +34,7 @@ export default function Detail() {
   const containerStyle = { backgroundColor: "white", padding: 20 };
 
   const { id } = useLocalSearchParams();
+  console.log("id :", id);
   const [selectedImage, setSelectedImage] = useState(images[0]);
   const [isFavorited, setIsFavorited] = useState(false);
   const navigation = useNavigation();
@@ -42,12 +43,12 @@ export default function Detail() {
   const screenHeight = Dimensions.get("window").height;
   const closeModalWithAnimation = () => {
     Animated.timing(panY, {
-      toValue: screenHeight, 
-      duration: 300, 
-      useNativeDriver: true, 
+      toValue: screenHeight,
+      duration: 300,
+      useNativeDriver: true,
     }).start(() => {
-      setModalVisible(false); 
-      panY.setValue(0); 
+      setModalVisible(false);
+      panY.setValue(0);
     });
   };
 

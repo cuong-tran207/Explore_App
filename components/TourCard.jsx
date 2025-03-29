@@ -15,18 +15,18 @@ const TourCard = ({ tours }) => {
         >
           <View className="w-full h-[200px]">
             <Image
-              source={tour.image}
-              className="w-full h-full"
+              source={{ uri: tour.photo }}
+              className="w-full h-full rounded-t-2xl"
               resizeMode="cover"
             />
           </View>
           <View className="p-3">
-            <Text className="text-lg font-bold">{tour.name}</Text>
+            <Text className="text-lg font-bold">{tour.title}</Text>
             <View className="flex-row items-center mt-2">
               <Ionicons name="star" size={16} color="#FFD700" />
-              <Text className="ml-1">{tour.rating}</Text>
+              <Text className="ml-1">{tour?.rating || 5}</Text>
               <Text className="text-gray-500 ml-1">
-                ({tour.reviews} reviews)
+                ({tour.isFavorite || 1} lượt thích)
               </Text>
             </View>
           </View>

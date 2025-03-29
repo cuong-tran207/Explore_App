@@ -14,7 +14,6 @@ import ActionSendComment from "@components/comment/ActionSendComment";
 
 export default function CommentScreen({ navigation }) {
   const user = useAuthStore((state) => state.user);
-  console.log("user :", user);
   const CURRENT_USER = user.name;
 
   const [page, setPage] = useState(1);

@@ -11,7 +11,6 @@ const useTourStore = create((set, get) => ({
     try {
       set({ loading: true });
       const response = await apiServer.call("introduce/list");
-      console.log("response :", response.data.results);
       if (response.data) {
         set({
           introduceTours: response.data.results,

@@ -12,12 +12,14 @@ import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import useAuthStore from "../store/authStore";
 import { getTime } from "../utils/getTime";
+import NotificationDialog from "./Dialog/NotificationDialog";
 
 const BannerSection = () => {
   const { user } = useAuthStore();
-
   const [bannerLoaded, setBannerLoaded] = useState(false);
   const [profileLoaded, setProfileLoaded] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [hasNewNotification] = useState(true);
 
   const BannerSkeleton = () => (
     <View className="w-full h-72 bg-gray-200">
@@ -70,14 +72,36 @@ const BannerSection = () => {
             <Text className="text-white text-lg font-bold">{user.name}</Text>
           </View>
         </View>
-        <TouchableOpacity>
-          {/* <Ionicons name="notifications-outline" size={24} color="white" /> */}
+        <TouchableOpacity
+          onPress={() => setShowNotifications(true)}
+          activeOpacity={0.6}
+        >
+          <View style={{ position: "relative" }}>
+            <Ionicons name="notifications-outline" size={24} color="white" />
+            <View
+              style={{
+                position: "absolute",
+                top: 2,
+                right: 3,
+                width: 7,
+                height: 7,
+                backgroundColor: "#EF4444",
+                borderRadius: 4,
+                elevation: 2,
+                zIndex: 1,
+              }}
+            />
+          </View>
         </TouchableOpacity>
       </View>
       <View className="absolute bottom-4 left-4">
         <Text className="text-white text-2xl font-bold">Bromo Mountain</Text>
         <Text className="text-white">Nghệ An, Việt Nam</Text>
       </View>
+      <NotificationDialog
+        visible={showNotifications}
+        onClose={() => setShowNotifications(false)}
+      />
     </View>
   );
 };

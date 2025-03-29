@@ -1,11 +1,12 @@
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
-import React from "react";
+import React, { useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import BannerSection from "../../components/HomeBanner";
-import TourCard from "../../components/TourCard";
-import { categories, tours } from "../../utils/TestData";
-import useAuthStore from "../../store/authStore";
+import BannerSection from "@components/HomeBanner";
+import TourCard from "@components/TourCard";
+import { categories } from "@utils/TestData";
+import useTourStore from "@store/tourStore";
+import TourCardSK from "@components/skeleton/TourCardSK";
 
 const Category = ({ categories = [] }) => {
   const router = useRouter();
@@ -43,11 +44,26 @@ const Category = ({ categories = [] }) => {
 };
 
 const Home = () => {
+  const {
+    introduceTours,
+    loading: loadingTour,
+    error,
+    fetchIntroduceTours,
+  } = useTourStore();
+
+  useEffect(() => {
+    fetchIntroduceTours();
+  }, []);
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <BannerSection />
       <Category categories={categories} />
-      <TourCard tours={tours} />
+      {loadingTour ? (
+        <TourCardSK></TourCardSK>
+      ) : (
+        <TourCard tours={introduceTours} />
+      )}
     </ScrollView>
   );
 };
