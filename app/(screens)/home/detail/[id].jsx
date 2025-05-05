@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useRef } from "react";
+import React, { Fragment, useState, useRef, useEffect } from "react";
 import {
   View,
   Text,
@@ -27,14 +27,12 @@ import CreatePlan from "@components/Dialog/createPlan";
 import Comment from "./comment/[id]";
 
 export default function Detail() {
+  const { id, message } = useLocalSearchParams();
+
   const [visible, setVisible] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalCommentVisible, setModalCommentVisible] = useState(false);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
-  const containerStyle = { backgroundColor: "white", padding: 20 };
-
-  const { id } = useLocalSearchParams();
-  console.log("id :", id);
   const [selectedImage, setSelectedImage] = useState(images[0]);
   const [isFavorited, setIsFavorited] = useState(false);
   const navigation = useNavigation();
@@ -47,7 +45,7 @@ export default function Detail() {
       duration: 300,
       useNativeDriver: true,
     }).start(() => {
-      setModalVisible(false);
+      setModalCommentVisible(false);
       panY.setValue(0);
     });
   };
@@ -72,6 +70,12 @@ export default function Detail() {
       },
     })
   ).current;
+
+  useEffect(() => {
+    if (message) {
+      setModalCommentVisible(true);
+    }
+  }, [message]);
 
   return (
     <Fragment>
@@ -165,7 +169,7 @@ export default function Detail() {
                 justifyContent: "center",
                 alignItems: "center",
               }}
-              onPress={() => setModalVisible(true)}
+              onPress={() => setModalCommentVisible(true)}
             >
               <Text style={{ fontWeight: "500" }}>Bình luận</Text>
             </TouchableOpacity>
@@ -191,7 +195,11 @@ export default function Detail() {
         <Modal visible={visible} onDismiss={hideModal} animationType="slide">
           <CreatePlan onDismiss={hideModal} />
         </Modal>
-        <Modal visible={modalVisible} transparent={true} animationType="none">
+        <Modal
+          visible={modalCommentVisible}
+          transparent={true}
+          animationType="none"
+        >
           <Animated.View
             style={{
               backgroundColor: "white",
@@ -213,7 +221,7 @@ export default function Detail() {
                 marginVertical: 10,
               }}
             />
-            <Comment></Comment>
+            <Comment message={message} id={id} />
           </Animated.View>
         </Modal>
       </Portal>

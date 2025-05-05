@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import apiServer from "../utils/api";
+import apiServer from "@utils/api";
 
 const useTourStore = create((set, get) => ({
   introduceTours: [],

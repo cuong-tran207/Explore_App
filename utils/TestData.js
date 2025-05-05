@@ -163,4 +163,35 @@ const initialComments = [
   },
 ];
 
-export { categories, tours, images, explores, favorites, initialComments };
+const notifications = [
+  {
+    id: 5,
+    type: "mention",
+    title: "An đã nhắc đến bạn trong một bình luận",
+    message: '"@John ý kiến của bạn về chuyến đi này thế nào?"',
+    time: "5 phút trước",
+    isRead: true,
+    linkTo: "/home/detail/comment/123", // ID của comment
+    tourName: "Tour Hạ Long 3 ngày 2 đêm",
+  },
+  {
+    id: 6,
+    type: "mention",
+    title: "An đã nhắc đến bạn trong một bình luận",
+    message: '"@John ý kiến của bạn về chuyến đi này thế nào?"',
+    time: "5 phút trước",
+    isRead: false,
+    linkTo: "/home/detail/comment/123", // ID của comment
+    tourName: "Tour Hạ Long 3 ngày 2 đêm",
+  },
+];
+
+export {
+  categories,
+  tours,
+  images,
+  explores,
+  favorites,
+  initialComments,
+  notifications,
+};
