@@ -10,7 +10,7 @@ const CustomInput = ({
   onRightIconPress,
   secureTextEntry,
   keyboardType = "default",
-  editable = true, // Thêm prop editable
+  editable = true,
 }) => {
   return (
     <View className="relative">

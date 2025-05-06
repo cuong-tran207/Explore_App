@@ -3,13 +3,13 @@ import tokenManager from "./tokenManager";
 
 class ApiServer {
   static endpoint = "https://discover-tourism.minhquancao0.workers.dev/api";
+
   async call(cmd, args = {}, method = "") {
     if (!method) method = Object.keys(args).length === 0 ? "GET" : "POST";
     let url = `${ApiServer.endpoint}/${cmd}`;
     if (Object.keys(args).length && method === "GET") {
       url += "?" + new URLSearchParams(args).toString();
     }
-
     const token = tokenManager.getToken();
     console.log(" tokenManager.getToken() :", tokenManager.getToken());
     const headers = {};
@@ -40,6 +40,5 @@ class ApiServer {
     }
   }
 }
-
 const apiServer = new ApiServer();
 export default apiServer;

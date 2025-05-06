@@ -8,47 +8,50 @@ import {
 } from "react-native";
 import { useNavigation } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import CardRestaurant from "../../../components/cardRestaurant";
+import { useEffect, useState } from "react";
+import apiServer from "../../../utils/api";
 
 const FOOD_CATEGORIES = [
   {
     id: "1",
     name: "Beef Burger",
-    price: "15.00",
+    price: "100000",
     image:
       "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&h=500&fit=crop",
   },
   {
     id: "2",
     name: "Eggs Benedict",
-    price: "12.00",
+    price: "200000",
     image:
       "https://images.unsplash.com/photo-1608039829572-78524f79c4c7?w=500&h=500&fit=crop",
   },
   {
     id: "3",
     name: "Sushi Roll",
-    price: "18.00",
+    price: "200000",
     image:
       "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=500&h=500&fit=crop",
   },
   {
     id: "4",
     name: "Pumpkin Soup",
-    price: "10.00",
+    price: "200000",
     image:
       "https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?w=500&h=500&fit=crop",
   },
   {
     id: "5",
     name: "Fresh Pasta",
-    price: "16.00",
+    price: "120000",
     image:
       "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=500&h=500&fit=crop",
   },
   {
     id: "6",
     name: "Fresh Salad",
-    price: "9.00",
+    price: "300000",
     image:
       "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&h=500&fit=crop",
   },
@@ -56,6 +59,15 @@ const FOOD_CATEGORIES = [
 
 const index = () => {
   const navigation = useNavigation();
+  const [listRes, setListRes] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await apiServer.call(`restaurant/list`);
+      console.log(res);
+      setListRes(res.data);
+    };
+    fetchData();
+  }, []);
   return (
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView className="flex-1 ">
@@ -74,36 +86,13 @@ const index = () => {
                   color="black"
                 />
               </TouchableOpacity>
-
               <Text className="text-2xl font-bold">Nhà hàng</Text>
             </View>
           </View>
-          <Text className="text-lg font-semibold mb-4">Food Category</Text>
+          <Text className="text-lg font-semibold mb-4">Danh sách nhà hàng</Text>
           <View className="flex-row flex-wrap justify-between">
-            {FOOD_CATEGORIES.map((item) => (
-              <TouchableOpacity
-                key={item.id}
-                className="w-[48%] bg-white rounded-2xl mb-4 overflow-hidden shadow-sm"
-                style={{
-                  elevation: 2,
-                }}
-              >
-                <Image
-                  source={{ uri: item.image }}
-                  className="w-full h-32 rounded-t-2xl"
-                />
-                <View className="p-3">
-                  <Text className="text-base font-semibold">{item.name}</Text>
-                  <View className="flex-row justify-between items-center mt-2">
-                    <Text className="text-primary font-bold">
-                      ${item.price}
-                    </Text>
-                    <TouchableOpacity className="bg-primary px-3 py-1 rounded-full">
-                      <Text className="text-white">Add</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </TouchableOpacity>
+            {listRes.map((item) => (
+              <CardRestaurant item={item} key={item.id}></CardRestaurant>
             ))}
           </View>
         </View>

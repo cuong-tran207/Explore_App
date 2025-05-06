@@ -20,9 +20,6 @@ const info = () => {
           <Text className="ml-2 text-lg font-bold">Mô tả chuyến đi</Text>
         </View>
         <Text className="mt-2 text-gray-700">Đi chơi Nghệ An</Text>
-        {/* <TouchableOpacity>
-          <Text className="text-orange-500 mt-1">Xem thêm ▼</Text>
-        </TouchableOpacity> */}
         <View className="flex-row mt-3">
           <View className="flex-row items-center flex-1">
             <FontAwesome name="map-marker" size={16} color="gray" />

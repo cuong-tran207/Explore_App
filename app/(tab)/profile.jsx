@@ -23,6 +23,7 @@ const Setting = () => {
     { translateY: useSharedValue(-50), opacity: useSharedValue(0), delay: 600 },
   ];
   const { user } = useAuthStore();
+  const { reset } = useAuthStore();
   useEffect(() => {
     elements.forEach((el) => {
       el.translateY.value = withTiming(0, { duration: 500, delay: el.delay });
@@ -34,7 +35,6 @@ const Setting = () => {
       transform: [{ translateY: elements[index].translateY.value }],
       opacity: elements[index].opacity.value,
     }));
-  const { reset } = useAuthStore();
   const router = useRouter();
   const handleLogout = () => {
     reset();
