@@ -2,10 +2,10 @@ import { View, Text, ScrollView, StatusBar, SafeAreaView } from "react-native";
 import { useRouter } from "expo-router";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import BannerSection from "../../components/HomeBanner";
-import TourCard from "../../components/TourCard";
+import BannerSection from "@components/HomeBanner";
+import TourCard from "@components/TourCard";
 import { categories, tours } from "../../utils/TestData";
-import FeatureButton from "../../components/FeatureButton";
+import FeatureButton from "@components/FeatureButton";
 
 const Category = ({ categories = [] }) => {
   const router = useRouter();
@@ -13,6 +13,8 @@ const Category = ({ categories = [] }) => {
     if (id === 1) router.push(`restaurant`);
     if (id === 2) router.push(`hotel`);
     if (id === 3) router.push(`explore`);
+    if (id === 4) router.push(`cars`);
+    if (id === 5) router.push(`schedule`);
   };
 
   return (
@@ -44,16 +46,16 @@ const Category = ({ categories = [] }) => {
                 onPress={() => pushRoute(1)}
               />
               <FeatureButton
-                title="Thuê xe"
+                title="Phương tiện"
                 icon="local-taxi"
                 color="#f59e0b"
-                onPress={() => console.log("Taxis pressed")}
+                onPress={() => pushRoute(4)}
               />
               <FeatureButton
                 title="Gợi ý lịch trình"
                 icon="tour"
                 color="#3b82f6"
-                onPress={() => console.log("Tours pressed")}
+                onPress={() => pushRoute(5)}
               />
             </View>
           </View>
