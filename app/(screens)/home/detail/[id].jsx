@@ -193,7 +193,7 @@ export default function Detail() {
       </View>
       <Portal>
         <Modal visible={visible} onDismiss={hideModal} animationType="slide">
-          <CreatePlan onDismiss={hideModal} />
+          <CreatePlan id={id} onDismiss={hideModal} />
         </Modal>
         <Modal
           visible={modalCommentVisible}
@@ -207,9 +207,9 @@ export default function Detail() {
               width: "100%",
               borderTopLeftRadius: 20,
               borderTopRightRadius: 20,
-              transform: [{ translateY: panY }], // Modal trôi theo panY
+              transform: [{ translateY: panY }],
             }}
-            {...panResponder.panHandlers} // Gắn sự kiện vuốt
+            {...panResponder.panHandlers}
           >
             <View
               style={{

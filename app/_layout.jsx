@@ -6,12 +6,15 @@ import {
   Animated,
   PanResponder,
   Dimensions,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { PaperProvider } from "react-native-paper";
 import "../global.css";
 import { StatusBar } from "expo-status-bar";
 import useAuthStore from "../store/authStore";
 import { Ionicons } from "@expo/vector-icons";
+import ChatBot from "@components/Dialog/chatBot";
 
 const { width, height } = Dimensions.get("window");
 
@@ -20,6 +23,9 @@ const RootLayout = () => {
   const segments = useSegments();
   const router = useRouter();
   const [isReady, setIsReady] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
 
   useEffect(() => {
     if (!isReady) {
@@ -57,73 +63,76 @@ const RootLayout = () => {
         { useNativeDriver: false }
       ),
       onPanResponderRelease: () => {
-        position.flattenOffset(); // Cập nhật lại vị trí sau khi kết thúc drag
+        position.flattenOffset();
       },
     })
   ).current;
 
-  const handlePress = () => {
-    console.log("Nút được nhấn!");
-  };
-
   return (
     <PaperProvider>
-      <Fragment>
-        <View className="flex-1">
-          <Stack
-            screenOptions={{
+      <View className="flex-1">
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            presentation: "card",
+            animation: "slide_from_right",
+            animationTypeForReplace: "push",
+            gestureEnabled: true,
+            gestureDirection: "horizontal",
+            fullScreenGestureEnabled: true,
+            animationDuration: 200,
+          }}
+        >
+          <Stack.Screen
+            name="(tab)"
+            options={{
               headerShown: false,
-              presentation: "card",
-              animation: "slide_from_right",
-              animationTypeForReplace: "push",
-              gestureEnabled: true,
-              gestureDirection: "horizontal",
-              fullScreenGestureEnabled: true,
-              animationDuration: 200,
-              tabBarHideOnKeyboard: true,
+              gestureEnabled: false,
             }}
-          >
-            <Stack.Screen
-              name="(tab)"
-              options={{
-                headerShown: false,
-                gestureEnabled: false,
-              }}
-            />
+          />
+          <Stack.Screen
+            name="index"
+            options={{
+              headerShown: false,
+              gestureEnabled: false,
+            }}
+          />
+        </Stack>
 
-            <Stack.Screen
-              name="index"
-              options={{
-                headerShown: false,
-                gestureEnabled: false,
-              }}
-            />
-          </Stack>
-
-          {/* Nút nổi có thể kéo thả */}
+        {token && user && (
           <Animated.View
             style={[
               {
                 position: "absolute",
-                width: 56,
-                height: 56,
+                zIndex: 10,
               },
               position.getLayout(),
             ]}
             {...panResponder.panHandlers}
           >
             <TouchableOpacity
-              onPress={handlePress}
+              onPress={showModal}
               activeOpacity={0.8}
               className="w-14 h-14 bg-gray-600 rounded-full flex items-center justify-center shadow-lg"
+              style={{
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.3,
+                shadowRadius: 4,
+                elevation: 5,
+              }}
             >
-              <Ionicons name="chatbox" size={24} color="#fff" />
+              <Ionicons
+                name="chatbox-ellipses-outline"
+                size={28}
+                color="#fff"
+              />
             </TouchableOpacity>
           </Animated.View>
-        </View>
-
-        <StatusBar barStyle="light-content" />
-      </Fragment>
+        )}
+      </View>
+      {visible && <ChatBot onDismiss={hideModal} />}
+      <StatusBar style="dark" />
     </PaperProvider>
   );
 };

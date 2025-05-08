@@ -1,39 +1,115 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  StatusBar,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import React from "react";
-import { Link, useNavigation } from "expo-router";
+import { LinearGradient } from "expo-linear-gradient";
+import { MaterialIcons } from "@expo/vector-icons";
+import profile1 from "../assets/image/profile1.jpg";
 
-const TourCard = ({ tours }) => {
-  const navigation = useNavigation();
+const TourCard = () => {
   return (
-    <View className="mt-6 px-4">
-      {tours.map((tour) => (
-        <Link
-          key={tour.id}
-          className="bg-white rounded-2xl mb-4 overflow-hidden shadow"
-          href={`/home/detail/${tour.id}`}
-        >
-          <View className="w-full h-[200px]">
-            <Image
-              source={{ uri: tour.photo }}
-              className="w-full h-full rounded-t-2xl"
-              resizeMode="cover"
-            />
+    <View style={styles.bannerContainer}>
+      <Image source={profile1} style={styles.bannerImage} />
+      <LinearGradient
+        colors={["transparent", "rgba(0,0,0,0.8)"]}
+        style={styles.bannerOverlay}
+      >
+        <View style={styles.bannerContent}>
+          <View style={styles.tagContainer}>
+            <Text style={styles.tagText}>Nghệ An</Text>
           </View>
-          <View className="p-3">
-            <Text className="text-lg font-bold">{tour.title}</Text>
-            <View className="flex-row items-center mt-2">
-              <Ionicons name="star" size={16} color="#FFD700" />
-              <Text className="ml-1">{tour?.rating || 5}</Text>
-              <Text className="text-gray-500 ml-1">
-                ({tour.isFavorite || 1} lượt thích)
-              </Text>
-            </View>
-          </View>
-        </Link>
-      ))}
+          <Text style={styles.bannerTitle}>Mùa hè đã đến</Text>
+          <Text style={styles.bannerDescription}>
+            Khám phá vẻ đẹp thiên nhiên hùng vĩ và những trải nghiệm không thể
+            quên tại Nghệ An
+          </Text>
+          <TouchableOpacity style={styles.bannerButton}>
+            <Text style={styles.bannerButtonText}>Khám phá ngay</Text>
+            <MaterialIcons name="arrow-forward" size={20} color="#ffffff" />
+          </TouchableOpacity>
+        </View>
+      </LinearGradient>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  bannerContainer: {
+    margin: 16,
+    marginTop: 0,
+    borderRadius: 16,
+    overflow: "hidden",
+    height: 230,
+    position: "relative",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  bannerImage: {
+    width: "100%",
+    height: "100%",
+    position: "absolute",
+  },
+  bannerOverlay: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: "100%",
+    justifyContent: "flex-end",
+    padding: 20,
+  },
+  bannerContent: {
+    gap: 8,
+  },
+  tagContainer: {
+    backgroundColor: "#f97316",
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+    alignSelf: "flex-start",
+    marginBottom: 4,
+  },
+  tagText: {
+    color: "#ffffff",
+    fontSize: 12,
+    fontWeight: "600",
+  },
+  bannerTitle: {
+    color: "#ffffff",
+    fontSize: 28,
+    fontWeight: "700",
+    marginBottom: 4,
+  },
+  bannerDescription: {
+    color: "#f8fafc",
+    fontSize: 16,
+    marginBottom: 16,
+  },
+  bannerButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#3b82f6",
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 25,
+    alignSelf: "flex-start",
+    gap: 8,
+  },
+  bannerButtonText: {
+    color: "#ffffff",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+});
 
 export default TourCard;

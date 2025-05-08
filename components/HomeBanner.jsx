@@ -46,7 +46,7 @@ const BannerSection = () => {
         onLoad={() => setBannerLoaded(true)}
         onError={() => setBannerLoaded(true)}
       />
-
+      <View className="absolute w-full h-full bg-black/30" />
       <View
         style={{
           marginTop:
@@ -95,7 +95,6 @@ const BannerSection = () => {
         </TouchableOpacity>
       </View>
       <View className="absolute bottom-4 left-4">
-        <Text className="text-white text-2xl font-bold">Bromo Mountain</Text>
         <Text className="text-white">Nghệ An, Việt Nam</Text>
       </View>
       <NotificationDialog

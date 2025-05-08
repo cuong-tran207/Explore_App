@@ -76,7 +76,7 @@ export default function Favorite() {
           className="text-2xl font-bold ml-2 pb-2"
           entering={FadeIn.delay(200).springify()}
         >
-          My Favorites
+          Địa điểm yêu thích
         </Animated.Text>
       </Animated.View>
 
