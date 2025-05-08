@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Platform,
   Dimensions,
+  ActivityIndicator,
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import Animated, {
@@ -19,26 +20,18 @@ import Animated, {
 } from "react-native-reanimated";
 import { StatusBar } from "expo-status-bar";
 import { Ionicons } from "@expo/vector-icons";
+import apiServer from "@utils/api"; // Update this path to match your project structure
 
 const HEADER_HEIGHT = 350;
+const AnimatedImage = Animated.createAnimatedComponent(Image);
 
-// Mock data - Replace with your actual data fetching logic
-const mockHotel = {
-  id: "1",
-  name: "Khách sạn mường thanh",
-  rating: 4.9,
-  reviews: 3245,
+// Fixed data elements that will be combined with API data
+const fixedHotelData = {
   category: "Luxury Resort",
-  priceRange: "$$$$",
-  image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb",
+  priceRange: "$$",
   coverImage: "https://images.unsplash.com/photo-1571896349842-33c89424de2d",
-  address:
-    "Số 13, đường Quang Trung, phường Quang Trung, thành phố Vinh, tỉnh Nghệ An, Việt Nam",
-  distance: "",
   checkIn: "3:00 PM",
   checkOut: "11:00 AM",
-  description:
-    "Experience unparalleled luxury at our beachfront resort. Featuring stunning ocean views, world-class amenities, and exceptional service, Grand Plaza Resort & Spa offers an unforgettable escape in paradise.",
   amenities: [
     "Free Wi-Fi",
     "Swimming Pool",
@@ -74,13 +67,8 @@ const mockHotel = {
       roomSize: "40 m²",
     },
   ],
-  coordinates: {
-    latitude: 25.7617,
-    longitude: -80.1918,
-  },
+  reviews: 3245,
 };
-
-const AnimatedImage = Animated.createAnimatedComponent(Image);
 
 const AmenityIcon = ({ name }) => {
   const icons = {
@@ -106,12 +94,51 @@ const AmenityIcon = ({ name }) => {
   );
 };
 
-export default function HotelScreen() {
+export default function HotelDetailScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const scrollY = useSharedValue(0);
 
-  const hotel = mockHotel;
+  const [hotel, setHotel] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchHotelDetails = async () => {
+      try {
+        setLoading(true);
+        const response = await apiServer.call(`hotel/detail/${id}`);
+
+        if (response.data) {
+          // Combine API data with fixed data
+          setHotel({
+            ...fixedHotelData,
+            ...response.data,
+            // Convert rental price to room price if needed
+            rooms:
+              response.room && response.room.length > 0
+                ? response.room
+                : fixedHotelData.rooms?.map((room) => ({
+                    ...room,
+                    price: response.data.rentalPrice
+                      ? Math.round(response.data.rentalPrice / 23000) // Convert VND to USD if needed
+                      : room.price,
+                  })),
+          });
+        } else {
+          setError("Could not fetch hotel details");
+        }
+      } catch (err) {
+        setError(err.message || "Failed to fetch hotel details");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (id) {
+      fetchHotelDetails();
+    }
+  }, [id]);
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
@@ -149,13 +176,58 @@ export default function HotelScreen() {
     };
   });
 
+  if (loading) {
+    return (
+      <View className="flex-1 justify-center items-center bg-white">
+        <ActivityIndicator size="large" color="#0000ff" />
+        <Text className="mt-4 text-text-secondary">
+          Loading hotel details...
+        </Text>
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View className="flex-1 justify-center items-center bg-white p-4">
+        <Ionicons name="alert-circle-outline" size={48} color="red" />
+        <Text className="mt-4 text-lg text-text-primary text-center">
+          Error loading hotel details
+        </Text>
+        <Text className="mt-2 text-text-secondary text-center">{error}</Text>
+        <TouchableOpacity
+          className="mt-6 bg-secondary p-3 rounded-xl"
+          onPress={() => router.back()}
+        >
+          <Text className="text-white">Go Back</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  if (!hotel) {
+    return (
+      <View className="flex-1 justify-center items-center bg-white p-4">
+        <Text className="text-lg text-text-primary text-center">
+          No hotel found with this ID
+        </Text>
+        <TouchableOpacity
+          className="mt-6 bg-secondary p-3 rounded-xl"
+          onPress={() => router.back()}
+        >
+          <Text className="text-white">Go Back</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   return (
     <View className="flex-1 bg-white">
       <StatusBar style="light" />
 
       {/* Animated Header Image */}
       <AnimatedImage
-        source={{ uri: hotel.coverImage }}
+        source={{ uri: hotel.coverImage || hotel.image }}
         className="absolute top-0 w-full"
         style={[{ height: HEADER_HEIGHT }, headerStyle]}
       />
@@ -212,6 +284,14 @@ export default function HotelScreen() {
                   {hotel.address}
                 </Text>
               </View>
+              {hotel.coordinates && (
+                <View className="flex-row items-center mt-2">
+                  <Ionicons name="navigate" size={18} color="#666" />
+                  <Text className="ml-2 text-sm text-text-secondary">
+                    {hotel.coordinates}
+                  </Text>
+                </View>
+              )}
               <View className="flex-row items-center mt-2">
                 <Ionicons name="time" size={18} color="#666" />
                 <Text className="ml-2 text-sm text-text-secondary">
@@ -223,6 +303,27 @@ export default function HotelScreen() {
             <Text className="mt-4 text-base leading-6 text-text-secondary">
               {hotel.description}
             </Text>
+
+            {hotel.rentalPrice && (
+              <View className="mt-4 p-4 bg-blue-50 rounded-lg">
+                <View className="flex-row items-center justify-between">
+                  <Text className="font-semibold text-lg text-text-primary">
+                    Base Price
+                  </Text>
+                  <View>
+                    <Text className="font-bold text-xl text-secondary text-right">
+                      {new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(hotel.rentalPrice)}
+                    </Text>
+                    <Text className="text-sm text-text-tertiary text-right">
+                      per night
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            )}
 
             {/* Amenities Section */}
             <View className="mt-8">
@@ -280,7 +381,9 @@ export default function HotelScreen() {
       {/* Book Now Button */}
       <TouchableOpacity
         className="absolute bottom-0 left-0 right-0 bg-secondary mx-4 mb-4 p-4 rounded-xl items-center"
-        onPress={() => {}}
+        onPress={() => {
+          // Handle booking logic
+        }}
       >
         <Text className="text-white text-base font-semibold">Book Now</Text>
       </TouchableOpacity>

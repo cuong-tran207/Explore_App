@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -11,12 +11,36 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useLocalSearchParams } from "expo-router";
-import { formatNumber } from "../../../../utils/help";
+import { formatNumber } from "@utils/help";
+import apiServer from "@utils/api"; // Adjust the import path as necessary
 
 export default function RestaurantDetailScreen() {
   const navigation = useNavigation();
   const { id } = useLocalSearchParams();
-  const restaurant = {
+  const [restaurantData, setRestaurantData] = useState(null);
+
+  useEffect(() => {
+    const fetchRestaurantData = async () => {
+      try {
+        const data = await apiServer.call(`restaurant/detail/${id}`);
+        console.log(data); // Logs the API response
+        setRestaurantData(data);
+      } catch (error) {
+        console.error("Error fetching restaurant data:", error);
+      }
+    };
+    fetchRestaurantData();
+  }, [id]);
+
+  if (!restaurantData) {
+    return (
+      <SafeAreaView className="flex-1 bg-white justify-center items-center">
+        <Text>Loading...</Text>
+      </SafeAreaView>
+    );
+  }
+
+  const defaultRestaurant = {
     name: "Đại Dương",
     image:
       "https://cdn.tgdd.vn/Files/2022/07/02/1444043/diem-qua-9-nha-hang-noi-tieng-tai-tp-vinh-nghe-an-ma-ban-nen-thu-202207020901187801.jpg",
@@ -39,13 +63,27 @@ export default function RestaurantDetailScreen() {
     ],
   };
 
+  const restaurant = {
+    ...defaultRestaurant,
+    ...restaurantData.data,
+    menu:
+      restaurantData.menu.length > 0
+        ? restaurantData.menu
+        : defaultRestaurant.menu,
+  };
+
+  console.log("Merged restaurant data:", restaurant); // Log the merged data
+
   return (
     <SafeAreaView className="flex-1 bg-white">
       <StatusBar barStyle="light-content" />
 
       {/* Header Image */}
       <View className="relative">
-        <Image source={{ uri: restaurant.image }} className="w-full h-72" />
+        <Image
+          source={{ uri: restaurant.photo || restaurant.image }}
+          className="w-full h-72"
+        />
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           className="absolute top-14 left-4 bg-white p-2 rounded-full shadow"
@@ -63,7 +101,7 @@ export default function RestaurantDetailScreen() {
             <Ionicons name="star" size={22} color="#FFD700" />
             <Text className="text-green-600">{restaurant.rating}</Text>
             <Text className="text-gray-500">
-              • {restaurant.reviews} reviews
+              • {restaurant.reviews || 0} reviews
             </Text>
           </View>
 
@@ -74,7 +112,9 @@ export default function RestaurantDetailScreen() {
 
           <View className="flex-row items-center space-x-1 mt-1">
             <Ionicons name="time" size={22} color="#00CCBB" />
-            <Text className="text-gray-600">{restaurant.deliveryTime} min</Text>
+            <Text className="text-gray-600">
+              {restaurant.deliveryTime || "N/A"} min
+            </Text>
           </View>
 
           {/* Description */}

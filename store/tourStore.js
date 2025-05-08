@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import apiServer from "../utils/api";
+import apiServer from "@utils/api";
 
 const useTourStore = create((set, get) => ({
   introduceTours: [],
@@ -11,7 +11,6 @@ const useTourStore = create((set, get) => ({
     try {
       set({ loading: true });
       const response = await apiServer.call("introduce/list");
-      console.log("response :", response.data.results);
       if (response.data) {
         set({
           introduceTours: response.data.results,

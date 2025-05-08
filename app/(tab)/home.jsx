@@ -66,6 +66,12 @@ const Category = ({ categories = [] }) => {
 };
 
 const Home = () => {
+  const { reset } = useAuthStore();
+  const router = useRouter();
+  const handleLogout = () => {
+    reset();
+    router.replace("/login");
+  };
   return (
     <View>
       <BannerSection />

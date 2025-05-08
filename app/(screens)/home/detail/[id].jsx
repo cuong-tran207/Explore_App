@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useRef } from "react";
+import React, { Fragment, useState, useRef, useEffect } from "react";
 import {
   View,
   Text,
@@ -27,32 +27,29 @@ import CreatePlan from "@components/Dialog/createPlan";
 import Comment from "./comment/[id]";
 
 export default function Detail() {
+  const { id, message } = useLocalSearchParams();
+
   const [visible, setVisible] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalCommentVisible, setModalCommentVisible] = useState(false);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
-  const containerStyle = { backgroundColor: "white", padding: 20 };
-
-  const { id } = useLocalSearchParams();
   const [selectedImage, setSelectedImage] = useState(images[0]);
   const [isFavorited, setIsFavorited] = useState(false);
   const navigation = useNavigation();
 
-  // Thêm Animated.Value để theo dõi vị trí Y của modal
   const panY = useRef(new Animated.Value(0)).current;
   const screenHeight = Dimensions.get("window").height;
   const closeModalWithAnimation = () => {
     Animated.timing(panY, {
-      toValue: screenHeight, // Di chuyển modal xuống hết màn hình
-      duration: 300, // Thời gian animation (300ms)
-      useNativeDriver: true, // Dùng native driver để mượt mà hơn
+      toValue: screenHeight,
+      duration: 300,
+      useNativeDriver: true,
     }).start(() => {
-      setModalVisible(false); // Tắt modal sau khi animation xong
-      panY.setValue(0); // Reset vị trí về 0
+      setModalCommentVisible(false);
+      panY.setValue(0);
     });
   };
 
-  // Xử lý vuốt modal
   const panResponder = useRef(
     PanResponder.create({
       onMoveShouldSetPanResponder: (evt, gestureState) => {
@@ -73,6 +70,12 @@ export default function Detail() {
       },
     })
   ).current;
+
+  useEffect(() => {
+    if (message) {
+      setModalCommentVisible(true);
+    }
+  }, [message]);
 
   return (
     <Fragment>
@@ -166,7 +169,7 @@ export default function Detail() {
                 justifyContent: "center",
                 alignItems: "center",
               }}
-              onPress={() => setModalVisible(true)}
+              onPress={() => setModalCommentVisible(true)}
             >
               <Text style={{ fontWeight: "500" }}>Bình luận</Text>
             </TouchableOpacity>
@@ -192,7 +195,11 @@ export default function Detail() {
         <Modal visible={visible} onDismiss={hideModal} animationType="slide">
           <CreatePlan id={id} onDismiss={hideModal} />
         </Modal>
-        <Modal visible={modalVisible} transparent={true} animationType="none">
+        <Modal
+          visible={modalCommentVisible}
+          transparent={true}
+          animationType="none"
+        >
           <Animated.View
             style={{
               backgroundColor: "white",
@@ -214,7 +221,7 @@ export default function Detail() {
                 marginVertical: 10,
               }}
             />
-            <Comment></Comment>
+            <Comment message={message} id={id} />
           </Animated.View>
         </Modal>
       </Portal>

@@ -1,46 +1,29 @@
-import React, { useState, useRef, useCallback, useEffect } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
+import React from "react";
+import { View, Text, TouchableOpacity, TextInput } from "react-native";
 
-const ActionSendComment = ({ onPostComment, initialReplyUser = null }) => {
-  const [comment, setComment] = useState("");
-  const textInputRef = useRef(null);
-
-  useEffect(() => {
-    if (initialReplyUser) {
-      setComment(`@${initialReplyUser.userName} `);
-      setTimeout(() => {
-        if (textInputRef.current) {
-          textInputRef.current.focus();
-        }
-      }, 100);
-    }
-  }, [initialReplyUser]);
-
-  const handleChangeText = useCallback((text) => {
-    setComment(text);
-  }, []);
-
-  const handlePostComment = useCallback(() => {
-    if (!comment.trim()) return;
-    onPostComment(comment);
-    setComment("");
-  }, [comment, onPostComment]);
-
+const ActionSendComment = ({
+  isReplying = false,
+  replyingTo = "",
+  onCancel = () => {},
+  value = "",
+  onChangeText = () => {},
+  onSend = () => {},
+}) => {
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 70 : 0}
-    >
-      <View className="flex-row p-4 border-t border-gray-200 bg-white gap-2">
+    <View className="p-4 border-t border-gray-200 bg-white">
+      {isReplying && (
+        <View className="flex-row justify-between items-center mb-2 py-2">
+          <Text className="text-gray-500">
+            Trả lời <Text className="font-semibold">{replyingTo}</Text>
+          </Text>
+          <TouchableOpacity onPress={onCancel} className="px-2">
+            <Text className="text-gray-500">Hủy</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
+      <View className="flex-row gap-2">
         <TextInput
-          ref={textInputRef}
           style={{
             flex: 1,
             backgroundColor: "#f3f4f6",
@@ -51,19 +34,28 @@ const ActionSendComment = ({ onPostComment, initialReplyUser = null }) => {
             paddingHorizontal: 16,
             height: 45,
           }}
-          placeholder="Share your thoughts..."
+          placeholder={
+            isReplying
+              ? `Trả lời ${replyingTo}...`
+              : "Chia sẻ suy nghĩ của bạn..."
+          }
           placeholderTextColor="#999"
-          value={comment}
-          onChangeText={handleChangeText}
+          value={value}
+          onChangeText={onChangeText}
         />
         <TouchableOpacity
-          className="bg-black rounded-full px-4 justify-center items-center"
-          onPress={handlePostComment}
+          className={`rounded-full px-4 justify-center items-center ${
+            value.trim() ? "bg-black" : "bg-gray-300"
+          }`}
+          onPress={onSend}
+          disabled={!value.trim()}
         >
-          <Text className="text-white font-semibold">Post</Text>
+          <Text className="text-white font-semibold">
+            {isReplying ? "Trả lời" : "Đăng"}
+          </Text>
         </TouchableOpacity>
       </View>
-    </KeyboardAvoidingView>
+    </View>
   );
 };
 
