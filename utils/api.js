@@ -1,8 +1,9 @@
 import { Alert } from "react-native";
 import tokenManager from "./tokenManager";
+import { API_URL, AI_URL } from "@env";
 
 class ApiServer {
-  static endpoint = "https://discover-tourism.minhquancao0.workers.dev/api";
+  static endpoint = API_URL;
 
   async call(cmd, args = {}, method = "") {
     if (!method) method = Object.keys(args).length === 0 ? "GET" : "POST";
