@@ -13,12 +13,20 @@ import { useNavigation } from "@react-navigation/native";
 import { useLocalSearchParams } from "expo-router";
 import { formatNumber } from "@utils/help";
 import apiServer from "@utils/api"; // Adjust the import path as necessary
+import Toast from "react-native-toast-message";
 
 export default function RestaurantDetailScreen() {
   const navigation = useNavigation();
   const { id } = useLocalSearchParams();
   const [restaurantData, setRestaurantData] = useState(null);
-
+  const showToast = () => {
+    Toast.show({
+      type: "error",
+      text1: "Thất bại",
+      text2: "Tính năng đang phát triển 👋",
+      position: "bottom", // hoặc 'top'
+    });
+  };
   useEffect(() => {
     const fetchRestaurantData = async () => {
       try {
@@ -141,13 +149,11 @@ export default function RestaurantDetailScreen() {
 
           {/* Order Button */}
           <TouchableOpacity
-            className="bg-[#00CCBB] rounded-lg p-4 mt-6 mb-6"
-            onPress={() => {
-              // Handle order
-            }}
+            className="bg-[#464242] rounded-lg p-4 mt-6 mb-6"
+            onPress={showToast}
           >
             <Text className="text-center text-white text-lg font-bold">
-              Place Order
+              Đặt đồ ăn
             </Text>
           </TouchableOpacity>
         </View>

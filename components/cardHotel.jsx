@@ -17,11 +17,12 @@ const cardHotel = ({ hotel, width, height }) => {
         android: "elevation-2",
         web: "shadow-sm",
       })}`}
-      style={{ width: width }}
+      style={{ width: parseInt(width) }}
     >
       <Image
         source={{ uri: hotel.image }}
-        className={`w-full h-${height} rounded-t-2xl`}
+        style={{ width: "100%", height: parseInt(height) }}
+        className="rounded-t-2xl"
       />
       <View className="p-4">
         <Text

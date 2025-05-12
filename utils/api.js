@@ -4,7 +4,6 @@ import { API_URL, AI_URL } from "@env";
 
 class ApiServer {
   static endpoint = API_URL;
-
   async call(cmd, args = {}, method = "") {
     if (!method) method = Object.keys(args).length === 0 ? "GET" : "POST";
     let url = `${ApiServer.endpoint}/${cmd}`;

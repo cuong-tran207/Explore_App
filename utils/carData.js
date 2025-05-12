@@ -13,6 +13,7 @@ export const carData = [
       transmission: "Automatic",
       fuelType: "Gasoline",
     },
+    link: "https://www.grab.com/vn/download/",
   },
   {
     id: "2",
@@ -27,6 +28,7 @@ export const carData = [
       transmission: "Automatic",
       fuelType: "Diesel",
     },
+    link: "https://heyu.vn/",
   },
   {
     id: "3",
@@ -40,6 +42,7 @@ export const carData = [
       transmission: "Automatic",
       fuelType: "Gasoline",
     },
+    link: "https://www.facebook.com/taximailove02383.57.57.57",
   },
   {
     id: "4",
@@ -55,6 +58,7 @@ export const carData = [
       transmission: "Automatic",
       fuelType: "Electric",
     },
+    link: "https://taximaxim.com/vn/",
   },
   {
     id: "5",
@@ -70,6 +74,7 @@ export const carData = [
       transmission: "Automatic",
       fuelType: "Gasoline",
     },
+    link: "https://www.facebook.com/DichVuLaiXeHoThinAirBlade",
   },
   {
     id: "6",
@@ -85,5 +90,6 @@ export const carData = [
       transmission: "Manual",
       fuelType: "Gasoline",
     },
+    link: "https://gocheap.vn/",
   },
 ];

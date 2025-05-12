@@ -6,6 +6,7 @@ import BannerSection from "@components/HomeBanner";
 import TourCard from "@components/TourCard";
 import { categories, tours } from "../../utils/TestData";
 import FeatureButton from "@components/FeatureButton";
+import useAuthStore from "../../store/authStore";
 
 const Category = ({ categories = [] }) => {
   const router = useRouter();

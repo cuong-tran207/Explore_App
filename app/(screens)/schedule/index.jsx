@@ -5,6 +5,7 @@ import {
   Pressable,
   TouchableOpacity,
 } from "react-native";
+import Loading from "@components/loading";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import Animated, { FadeInDown } from "react-native-reanimated";
@@ -12,6 +13,7 @@ import { useState } from "react";
 import { useNavigation } from "expo-router";
 import Detail from "./detail";
 import axios from "axios";
+import { API_URL, AI_URL } from "@env";
 
 const schedules = [
   {
@@ -69,63 +71,73 @@ const languages = [
   { id: "ru", name: "Russian", flag: "🇷🇺" },
 ];
 
-const plan = {
-  summary:
-    "Hành trình 3 ngày khám phá Nghệ An đưa bạn đến với những địa danh lịch sử, văn hóa nổi tiếng, những bãi biển đẹp và thưởng thức ẩm thực đặc sắc của vùng đất này.",
-  days: [
-    {
-      day: "Ngày 1",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Quang_truong_Ho_Chi_Minh_Vinh_City.jpg/1280px-Quang_truong_Ho_Chi_Minh_Vinh_City.jpg",
-      activities: {
-        morning:
-          "Đến thành phố Vinh, nhận phòng khách sạn và tham quan Quảng trường Hồ Chí Minh, Bảo tàng Hồ Chí Minh.",
-        afternoon: "Tham quan Khu di tích lịch sử Truông Bồn.",
-        evening: "Ăn tối tại nhà hàng đặc sản Nghệ An, thưởng thức cháo lươn.",
-      },
-    },
-    {
-      day: "Ngày 2",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Cua_Lo_Beach.jpg/1280px-Cua_Lo_Beach.jpg",
-      activities: {
-        morning:
-          "Di chuyển đến Cửa Lò, tắm biển và tham gia các hoạt động thể thao dưới nước.",
-        afternoon: "Ăn trưa hải sản tươi ngon tại Cửa Lò.",
-        evening: "Thưởng thức hải sản nướng tại bờ biển Cửa Lò.",
-      },
-    },
-    {
-      day: "Ngày 3",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/ThacKem2.JPG/1280px-ThacKem2.JPG",
-      activities: {
-        morning: "Tham quan Làng Sen quê Bác.",
-        afternoon: "Mua sắm đặc sản Nghệ An làm quà.",
-        evening: "Ăn tối và di chuyển ra sân bay/ga tàu, kết thúc hành trình.",
-      },
-    },
-  ],
-};
+// const plan = {
+//   summary:
+//     "Hành trình 3 ngày khám phá Nghệ An đưa bạn đến với những địa danh lịch sử, văn hóa nổi tiếng, những bãi biển đẹp và thưởng thức ẩm thực đặc sắc của vùng đất này.",
+//   days: [
+//     {
+//       day: "Ngày 1",
+//       image:
+//         "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Quang_truong_Ho_Chi_Minh_Vinh_City.jpg/1280px-Quang_truong_Ho_Chi_Minh_Vinh_City.jpg",
+//       activities: {
+//         morning:
+//           "Đến thành phố Vinh, nhận phòng khách sạn và tham quan Quảng trường Hồ Chí Minh, Bảo tàng Hồ Chí Minh.",
+//         afternoon: "Tham quan Khu di tích lịch sử Truông Bồn.",
+//         evening: "Ăn tối tại nhà hàng đặc sản Nghệ An, thưởng thức cháo lươn.",
+//       },
+//     },
+//     {
+//       day: "Ngày 2",
+//       image:
+//         "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Cua_Lo_Beach.jpg/1280px-Cua_Lo_Beach.jpg",
+//       activities: {
+//         morning:
+//           "Di chuyển đến Cửa Lò, tắm biển và tham gia các hoạt động thể thao dưới nước.",
+//         afternoon: "Ăn trưa hải sản tươi ngon tại Cửa Lò.",
+//         evening: "Thưởng thức hải sản nướng tại bờ biển Cửa Lò.",
+//       },
+//     },
+//     {
+//       day: "Ngày 3",
+//       image:
+//         "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/ThacKem2.JPG/1280px-ThacKem2.JPG",
+//       activities: {
+//         morning: "Tham quan Làng Sen quê Bác.",
+//         afternoon: "Mua sắm đặc sản Nghệ An làm quà.",
+//         evening: "Ăn tối và di chuyển ra sân bay/ga tàu, kết thúc hành trình.",
+//       },
+//     },
+//   ],
+// };
 
 export default function ScheduleScreen() {
   const navigation = useNavigation();
   const [step, setStep] = useState(1);
   const [selectedSchedule, setSelectedSchedule] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState(false);
+  const [plan, setPlan] = useState(false);
 
   const renderPlan = async () => {
     if (step < 2) {
       setStep(step + 1);
     } else {
-      // console.log("Final selection:", {
-      //   schedule: selectedSchedule,
-      //   language: selectedLanguage,
-      // });
-      const res = await axios.get(
-        `https://5601-171-242-75-98.ngrok-free.app/api/gen-ai/chat?sessionId=${random}&message=${encodedMessage}`
-      );
-      setStep(3);
+      try {
+        setStep(4);
+        const res = await axios.get(
+          `${AI_URL}/api/plan/getPlan?schedule=${selectedSchedule}&language=${selectedLanguage}`
+        );
+
+        if (res.data.reply.success) {
+          const days = res.data.reply.parsed;
+          setPlan(days);
+          console.log("Plan data:", days);
+          setStep(3);
+        } else {
+          console.error("Lấy plan thất bại:", res.data);
+        }
+      } catch (error) {
+        console.error("Lỗi khi gọi API:", error);
+      }
     }
   };
 
@@ -267,6 +279,7 @@ export default function ScheduleScreen() {
     if (step === 1) return !!selectedSchedule;
     if (step === 2) return !!selectedLanguage;
     if (step === 3) return false;
+    if (step === 4) return false;
     return true;
   };
 
@@ -275,6 +288,7 @@ export default function ScheduleScreen() {
       <ScrollView className="flex-1 px-4" showsVerticalScrollIndicator={false}>
         {step === 1 && renderScheduleSelection()}
         {step === 2 && renderLanguageSelection()}
+        {step === 4 && <Loading />}
         {step === 3 && <Detail plan={plan} />}
 
         <Animated.View

@@ -50,43 +50,42 @@ const images = [
 const explores = [
   {
     id: "1",
-    title: "Thác Khe Kèm",
+    title: "Biển Cửa Lò",
     image:
-      "https://images.unsplash.com/photo-1740328398503-20fe0f3ff00f?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://bizweb.dktcdn.net/100/006/093/files/kinh-nghiem-du-lich-cua-lo-11.jpg?v=1579138150073",
     height: 180,
     position: "left",
   },
   {
     id: "2",
-    title: "Làng Sen Quê Bác",
+    title: "Khu di tích lịch sử Kim Liên",
     image:
-      "https://images.unsplash.com/photo-1724583698704-94b3f4771c58?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://statics.vinpearl.com/khu-di-tich-lich-su-kim-lien-2_1634539428.jpg",
     height: 240,
     position: "right",
   },
   {
     id: "3",
-    title: "Đồi Chè Thanh Chương",
-    image:
-      "https://images.unsplash.com/photo-1724583698200-555b46369d9f?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    height: 240,
+    title: "Vườn Quốc Gia Pù Mát",
+    image: "https://sakos.vn/wp-content/uploads/2024/05/pumat-1.jpg",
+    height: 180,
     position: "left",
   },
   {
     id: "4",
-    title: "Biển Quỳnh",
+    title: "Đồi Chè Thanh Chương",
     image:
-      "https://images.unsplash.com/photo-1724583701664-977dd9ac3aff?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    height: 180,
-    position: "right",
+      "https://dulichdemen.vn/wp-content/uploads/2023/05/dao-che-thanh-chuong-nghe-an-du-lich-de-men-vn-1400x788.jpg",
+    height: 240,
+    position: "left",
   },
   {
     id: "5",
-    title: "Vườn Quốc Gia Pù Mát",
+    title: "Đền Cuông",
     image:
-      "https://images.unsplash.com/photo-1740328398503-20fe0f3ff00f?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://baolamdong.vn/file/e7837c02845ffd04018473e6df282e92/dataimages/202008/original/images2310505_mgi_104406.jpg",
     height: 180,
-    position: "left",
+    position: "right",
   },
 ];
 

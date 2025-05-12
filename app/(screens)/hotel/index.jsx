@@ -13,66 +13,6 @@ import { Ionicons } from "@expo/vector-icons";
 import CardHotel from "../../../components/cardHotel";
 import apiServer from "../../../utils/api";
 
-const FEATURED_HOTELS = [
-  {
-    id: "1",
-    name: "Grand Luxury Resort & Spa",
-    location: "Maldives",
-    rating: 4.9,
-    price: 599,
-    image:
-      "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&h=500&fit=crop",
-  },
-  {
-    id: "2",
-    name: "Mountain View Lodge",
-    location: "Swiss Alps",
-    rating: 4.8,
-    price: 429,
-    image:
-      "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&h=500&fit=crop",
-  },
-  {
-    id: "3",
-    name: "Coastal Paradise Hotel",
-    location: "Bali",
-    rating: 4.7,
-    price: 349,
-    image:
-      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&h=500&fit=crop",
-  },
-];
-
-const UNDER_HOTELS = [
-  {
-    id: "1",
-    name: "Grand Luxury Resort & Spa",
-    location: "Maldives",
-    rating: 4.9,
-    price: 599,
-    image:
-      "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&h=500&fit=crop",
-  },
-  {
-    id: "2",
-    name: "Mountain View Lodge",
-    location: "Swiss Alps",
-    rating: 4.8,
-    price: 429,
-    image:
-      "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&h=500&fit=crop",
-  },
-  {
-    id: "3",
-    name: "Coastal Paradise Hotel",
-    location: "Bali",
-    rating: 4.7,
-    price: 349,
-    image:
-      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&h=500&fit=crop",
-  },
-];
-
 const index = () => {
   const navigation = useNavigation();
   const [topListHotel, setTopListHotel] = useState([]);
@@ -119,7 +59,7 @@ const index = () => {
                 key={index}
                 hotel={hotel}
                 width={"300"}
-                height={"48"}
+                height={"120"}
               ></CardHotel>
             ))}
           </ScrollView>
@@ -134,7 +74,7 @@ const index = () => {
                 key={hotel.id}
                 hotel={hotel}
                 width={"190"}
-                height={"40"}
+                height={"90"}
               ></CardHotel>
             ))}
           </View>

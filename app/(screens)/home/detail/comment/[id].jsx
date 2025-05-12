@@ -85,6 +85,7 @@ export default function CommentScreen({ navigation, id }) {
         cancelReply();
       } else {
         await addComment(id, commentText);
+        await fetchComment(id, 1);
         setCommentText("");
       }
     } catch (error) {
@@ -135,9 +136,7 @@ export default function CommentScreen({ navigation, id }) {
         ListEmptyComponent={
           !loading ? (
             <View className="py-10 flex items-center">
-              <Text className="text-gray-500">
-                No comments yet. Be the first to comment!
-              </Text>
+              <Text className="text-gray-500">Chưa có comment nào!!</Text>
             </View>
           ) : null
         }

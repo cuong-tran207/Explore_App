@@ -13,6 +13,7 @@ import {
 import Animated from "react-native-reanimated";
 import useAuthStore from "@store/authStore";
 import axios from "axios";
+import { API_URL, AI_URL } from "@env";
 
 const ChatBot = ({ onDismiss }) => {
   const { token, user } = useAuthStore();
@@ -37,7 +38,7 @@ const ChatBot = ({ onDismiss }) => {
     try {
       const encodedMessage = encodeURIComponent(message);
       const res = await axios.get(
-        `https://5601-171-242-75-98.ngrok-free.app/api/gen-ai/chat?sessionId=${random}&message=${encodedMessage}`
+        `${AI_URL}/api/gen-ai/chat?sessionId=${random}&message=${encodedMessage}`
       );
       setMessages((prev) => [
         ...prev,

@@ -3,6 +3,7 @@ import { View, Text, Image, ScrollView, TouchableOpacity } from "react-native";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "expo-router";
 import profile1 from "../../../assets/image/profile1.jpg";
+import profile3 from "../../../assets/image/profile3.jpg";
 
 export default function Detail({ plan }) {
   const navigation = useNavigation();
@@ -41,7 +42,7 @@ export default function Detail({ plan }) {
             <View className="w-2 h-2 bg-white rounded-full mx-2" />
             <Feather name="calendar" size={16} color="white" />
             <Text className="text-white ml-1 font-medium">
-              {plan.duration || `${plan.days.length} ngày`}
+              {plan.duration || `${plan.days?.length} ngày`}
             </Text>
           </View>
         </View>
@@ -52,7 +53,7 @@ export default function Detail({ plan }) {
         <Text className="text-gray-700 leading-relaxed">{plan.summary}</Text>
       </View>
 
-      {plan.days.map((day, index) => (
+      {plan.days?.map((day, index) => (
         <View
           key={index}
           className="bg-white rounded-lg mx-4 p-5 shadow-sm mb-6"
@@ -71,7 +72,7 @@ export default function Detail({ plan }) {
           </View>
 
           <Image
-            source={day?.image}
+            source={profile3}
             className="w-full h-48 rounded-lg mb-4"
             resizeMode="cover"
           />

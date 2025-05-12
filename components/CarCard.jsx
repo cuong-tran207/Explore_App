@@ -1,4 +1,4 @@
-import { View, Text, Image, Pressable } from "react-native";
+import { View, Text, Image, Pressable, Linking } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import Animated, {
   useSharedValue,
@@ -25,6 +25,12 @@ export default function CarCard({ car }) {
     scale.value = withSpring(1, { damping: 15, stiffness: 120 });
   };
 
+  const handleOpenLink = () => {
+    if (car.link) {
+      Linking.openURL(car.link);
+    }
+  };
+
   return (
     <Animated.View
       style={animatedStyle}
@@ -33,6 +39,7 @@ export default function CarCard({ car }) {
       <Pressable
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
+        onPress={handleOpenLink}
         className="border border-gray-100 rounded-xl"
       >
         <View className="p-4">

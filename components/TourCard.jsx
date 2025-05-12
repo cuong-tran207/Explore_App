@@ -12,8 +12,10 @@ import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialIcons } from "@expo/vector-icons";
 import profile1 from "../assets/image/profile1.jpg";
+import { useRouter } from "expo-router";
 
 const TourCard = () => {
+  const router = useRouter();
   return (
     <View style={styles.bannerContainer}>
       <Image source={profile1} style={styles.bannerImage} />
@@ -30,7 +32,10 @@ const TourCard = () => {
             Khám phá vẻ đẹp thiên nhiên hùng vĩ và những trải nghiệm không thể
             quên tại Nghệ An
           </Text>
-          <TouchableOpacity style={styles.bannerButton}>
+          <TouchableOpacity
+            style={styles.bannerButton}
+            onPress={() => router.push(`explore`)}
+          >
             <Text style={styles.bannerButtonText}>Khám phá ngay</Text>
             <MaterialIcons name="arrow-forward" size={20} color="#ffffff" />
           </TouchableOpacity>

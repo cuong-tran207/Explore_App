@@ -25,6 +25,7 @@ import { useLocalSearchParams, useNavigation } from "expo-router";
 import { Header } from "@components/DetailPlaceHeader";
 import CreatePlan from "@components/Dialog/createPlan";
 import Comment from "./comment/[id]";
+import apiServer from "../../../../utils/api";
 
 export default function Detail() {
   const { id, message } = useLocalSearchParams();
@@ -36,6 +37,22 @@ export default function Detail() {
   const [selectedImage, setSelectedImage] = useState(images[0]);
   const [isFavorited, setIsFavorited] = useState(false);
   const navigation = useNavigation();
+
+  useEffect(() => {
+    if (!id) return;
+
+    const fetchData = async () => {
+      try {
+        const res = await apiServer.call(`introduce/detail/${id}`);
+        setSelectedImage(res.data);
+        console.log(res);
+      } catch (error) {
+        console.error("Error fetching detail:", error);
+      }
+    };
+
+    fetchData();
+  }, [id]);
 
   const panY = useRef(new Animated.Value(0)).current;
   const screenHeight = Dimensions.get("window").height;
@@ -53,10 +70,10 @@ export default function Detail() {
   const panResponder = useRef(
     PanResponder.create({
       onMoveShouldSetPanResponder: (evt, gestureState) => {
-        return gestureState.dy > 20; // Chỉ cho phép vuốt xuống
+        return gestureState.dy > 20;
       },
       onPanResponderMove: (evt, gestureState) => {
-        panY.setValue(gestureState.dy > 0 ? gestureState.dy : 0); // Modal di chuyển theo tay
+        panY.setValue(gestureState.dy > 0 ? gestureState.dy : 0);
       },
       onPanResponderRelease: (evt, gestureState) => {
         if (gestureState.dy > 400) {
@@ -98,7 +115,7 @@ export default function Detail() {
                 ? FadeOut.duration(700)
                 : FadeOut.duration(500)
             }
-            source={{ uri: selectedImage.uri }}
+            source={{ uri: selectedImage.extra_photo }}
             style={{ width: "100%", height: "100%", borderRadius: 10 }}
             resizeMode="cover"
             loadingStrategy="async"
@@ -124,14 +141,21 @@ export default function Detail() {
                 gap: 10,
               }}
             >
-              {images.map((item) => (
+              {selectedImage.introduce_extra?.map((item) => (
                 <TouchableOpacity
                   key={item.id}
-                  onPress={() => setSelectedImage(item)}
+                  onPress={() =>
+                    setSelectedImage({
+                      ...selectedImage,
+                      extra_photo: item.image,
+                      title: item.title,
+                      description: item.description,
+                    })
+                  }
                   activeOpacity={0.7}
                 >
                   <Image
-                    source={{ uri: item.uri }}
+                    source={{ uri: item.image }}
                     className={`w-16 h-16 rounded-xl ${
                       selectedImage.id === item.id
                         ? "border-2 border-white"
@@ -142,15 +166,26 @@ export default function Detail() {
               ))}
             </ScrollView>
           </View>
-          <AnimatedReanimated.Text
-            key={selectedImage.id}
-            entering={FadeInDown.duration(350).springify()}
-            exiting={FadeOutUp.duration(300)}
-            className="text-white text-sm font-medium mt-3"
-            style={{ textAlign: "justify" }}
-          >
-            {selectedImage.description}
-          </AnimatedReanimated.Text>
+          <View className="mt-3">
+            <AnimatedReanimated.Text
+              key={selectedImage.id + 1}
+              entering={FadeInDown.duration(350).springify()}
+              exiting={FadeOutUp.duration(300)}
+              className="text-white text-sm font-bold text-[17px]"
+              style={{ textAlign: "justify" }}
+            >
+              {selectedImage.title}
+            </AnimatedReanimated.Text>
+            <AnimatedReanimated.Text
+              key={selectedImage.id}
+              entering={FadeInDown.duration(350).springify()}
+              exiting={FadeOutUp.duration(300)}
+              className="text-white text-sm font-medium "
+              style={{ textAlign: "justify" }}
+            >
+              {selectedImage.description}
+            </AnimatedReanimated.Text>
+          </View>
           <View
             style={{
               flexDirection: "row",

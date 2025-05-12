@@ -20,7 +20,8 @@ import Animated, {
 } from "react-native-reanimated";
 import { StatusBar } from "expo-status-bar";
 import { Ionicons } from "@expo/vector-icons";
-import apiServer from "@utils/api"; // Update this path to match your project structure
+import apiServer from "@utils/api";
+import { numberToVnd } from "@utils/help"; // Assuming you have a utility function for formatting numbers
 
 const HEADER_HEIGHT = 350;
 const AnimatedImage = Animated.createAnimatedComponent(Image);
@@ -44,10 +45,10 @@ const fixedHotelData = {
   rooms: [
     {
       id: "1",
-      name: "Ocean View Suite",
+      name: "Phòng Luxury Ocean View",
       description:
-        "Luxurious suite with panoramic ocean views, private balcony, and premium amenities",
-      price: 450,
+        "Phòng sang trọng với tầm nhìn toàn cảnh đại dương, ban công tư nhân và các tiện nghi cao cấp",
+      money: 1200000,
       image: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af",
       amenities: ["King Bed", "Ocean View", "Balcony", "Mini Bar"],
       maxOccupancy: 2,
@@ -56,10 +57,10 @@ const fixedHotelData = {
     },
     {
       id: "2",
-      name: "Deluxe Garden Room",
+      name: "Phòng Deluxe Garden Room",
       description:
-        "Elegant room overlooking our tropical gardens with modern furnishings",
-      price: 320,
+        "Phòng thanh lịch nhìn ra những khu vườn nhiệt đới của chúng tôi với đồ nội thất hiện đại",
+      money: 750000,
       image: "https://images.unsplash.com/photo-1566665797739-1674de7a421a",
       amenities: ["Queen Bed", "Garden View", "Workspace", "Rain Shower"],
       maxOccupancy: 2,
@@ -304,7 +305,7 @@ export default function HotelDetailScreen() {
               {hotel.description}
             </Text>
 
-            {hotel.rentalPrice && (
+            {/* {hotel.rentalPrice && (
               <View className="mt-4 p-4 bg-blue-50 rounded-lg">
                 <View className="flex-row items-center justify-between">
                   <Text className="font-semibold text-lg text-text-primary">
@@ -323,7 +324,7 @@ export default function HotelDetailScreen() {
                   </View>
                 </View>
               </View>
-            )}
+            )} */}
 
             {/* Amenities Section */}
             <View className="mt-8">
@@ -361,14 +362,14 @@ export default function HotelDetailScreen() {
                         {room.roomSize}
                       </Text>
                       <Text className="text-sm text-text-secondary">
-                        Max: {room.maxOccupancy} guests
+                        Tối đa: {room.maxOccupancy} người
                       </Text>
                     </View>
                     <View className="flex-row items-center justify-between mt-4">
                       <Text className="text-2xl font-bold text-secondary">
-                        ${room.price}
+                        {numberToVnd(room.money)}
                       </Text>
-                      <Text className="text-text-tertiary">per night</Text>
+                      <Text className="text-text-tertiary">đêm</Text>
                     </View>
                   </View>
                 </Animated.View>
