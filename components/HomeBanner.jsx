@@ -58,7 +58,7 @@ const BannerSection = () => {
           <View>
             {!profileLoaded && <ProfileSkeleton />}
             <Image
-              source={{ uri: user.avatar }}
+              source={{ uri: user?.avatar }}
               className={`w-10 h-10 rounded-full ${
                 !profileLoaded ? "opacity-0" : "opacity-100"
               }`}
@@ -69,7 +69,7 @@ const BannerSection = () => {
 
           <View>
             <Text className="text-white">{getTime()}</Text>
-            <Text className="text-white text-lg font-bold">{user.name}</Text>
+            <Text className="text-white text-lg font-bold">{user?.name}</Text>
           </View>
         </View>
         <TouchableOpacity
