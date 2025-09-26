@@ -28,11 +28,12 @@ module.exports = function (api) {
           allowUndefined: true,
         },
       ],
+      // Di chuyển plugin của Paper vào đây
+      "react-native-paper/babel",
+
+      // QUAN TRỌNG: Plugin của Reanimated phải luôn ở cuối cùng
+      "react-native-reanimated/plugin",
     ],
-    env: {
-      production: {
-        plugins: ["react-native-paper/babel"],
-      },
-    },
+    // Xóa hoàn toàn khối 'env' nếu nó không còn gì khác
   };
 };

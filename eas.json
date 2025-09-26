@@ -3,7 +3,6 @@
     "version": ">= 14.4.1",
     "appVersionSource": "remote"
   },
-  "packageManager": "npm",
   "build": {
     "development": {
       "developmentClient": true,
