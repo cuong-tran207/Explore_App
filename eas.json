@@ -4,14 +4,26 @@
     "appVersionSource": "remote"
   },
   "build": {
+    "packageManager": "npm",
     "development": {
       "developmentClient": true,
       "distribution": "internal"
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "API_URL": "https://discover-tourism.minhquancao0.workers.dev/api",
+        "AI_URL": "https://chat-ai-api.mrun.site"
+      }
     },
     "production": {
+      "env": {
+        "API_URL": "https://discover-tourism.minhquancao0.workers.dev/api",
+        "AI_URL": "https://chat-ai-api.mrun.site"
+      },
       "autoIncrement": true
     }
   },

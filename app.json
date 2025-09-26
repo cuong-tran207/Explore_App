@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "explore-app",
-    "slug": "explore-app",
-    "scheme": "explore-app",
+    "name": "nghe-an-explore",
+    "slug": "nghe-an-explore",
+    "scheme": "nghe-an-explore",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -20,7 +20,9 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.explore.nghean",
+      "versionCode": 2
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -32,7 +34,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "8c594839-932f-4e82-affb-d6d2d7e2e948"
+        "projectId": "63f6effc-d080-46fe-ad96-a673973a1518"
       }
     }
   }
