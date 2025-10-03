@@ -1,7 +1,6 @@
 {
   "cli": {
-    "version": ">= 14.4.1",
-    "appVersionSource": "remote"
+    "version": ">= 7.8.2"
   },
   "build": {
     "development": {
@@ -11,19 +10,14 @@
     "preview": {
       "distribution": "internal",
       "android": {
-        "buildType": "apk"
-      },
-      "env": {
-        "API_URL": "https://discover-tourism.minhquancao0.workers.dev/api",
-        "AI_URL": "https://chat-ai-api.mrun.site"
+        "buildType": "app-bundle"
       }
     },
     "production": {
       "env": {
         "API_URL": "https://discover-tourism.minhquancao0.workers.dev/api",
         "AI_URL": "https://chat-ai-api.mrun.site"
-      },
-      "autoIncrement": true
+      }
     }
   },
   "submit": {

@@ -10,7 +10,6 @@ import {
   Platform,
 } from "react-native";
 import { PaperProvider } from "react-native-paper";
-import "../global.css";
 import { StatusBar } from "expo-status-bar";
 import useAuthStore from "../store/authStore";
 import { Ionicons } from "@expo/vector-icons";

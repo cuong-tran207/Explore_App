@@ -1,6 +1,6 @@
 import { Alert } from "react-native";
 import tokenManager from "./tokenManager";
-import { API_URL, AI_URL } from "@env";
+import { API_URL } from "@env";
 
 class ApiServer {
   static endpoint = API_URL;

@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "nghe-an-explore",
-    "slug": "nghe-an-explore",
-    "scheme": "nghe-an-explore",
+    "name": "explore-expo-go",
+    "slug": "explore-expo-go",
+    "scheme": "explore-expo-go",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -14,7 +14,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.explore.nghean"
     },
     "android": {
       "adaptiveIcon": {
@@ -28,13 +29,16 @@
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
     },
-    "plugins": ["expo-router", "@react-native-google-signin/google-signin"],
+    "plugins": [
+      "expo-router",
+      "@react-native-google-signin/google-signin"
+    ],
     "extra": {
       "router": {
         "origin": false
       },
       "eas": {
-        "projectId": "63f6effc-d080-46fe-ad96-a673973a1518"
+        "projectId": "af623c1e-ed32-40a9-a4c9-8ace40353c68"
       }
     }
   }

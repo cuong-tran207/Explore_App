@@ -118,8 +118,6 @@ android {
         }
     }
     packagingOptions {
-        pickFirst 'com/swmansion/worklets/AndroidUIScheduler$1.dex'
-        pickFirst 'com/swmansion/worklets/AndroidUIScheduler$2.dex'
         jniLibs {
             useLegacyPackaging (findProperty('expo.useLegacyPackaging')?.toBoolean() ?: false)
         }

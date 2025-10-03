@@ -31,7 +31,7 @@ extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
 }
 expoAutolinking.useExpoModules()
 
-rootProject.name = 'nghe-an-explore'
+rootProject.name = 'explore-expo-go'
 
 expoAutolinking.useExpoVersionCatalog()
 

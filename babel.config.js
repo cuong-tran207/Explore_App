@@ -1,19 +1,17 @@
 module.exports = function (api) {
   api.cache(true);
   return {
-    presets: [
-      ["babel-preset-expo", { jsxImportSource: "nativewind" }],
-      "nativewind/babel",
-    ],
+    presets: ["babel-preset-expo"],
     plugins: [
       [
         "module-resolver",
         {
+          root: ["."],
+          extensions: [".js", ".jsx", ".ts", ".tsx"],
           alias: {
             "@components": "./components",
             "@utils": "./utils",
             "@store": "./store",
-            "@service": "./service",
           },
         },
       ],
@@ -28,12 +26,7 @@ module.exports = function (api) {
           allowUndefined: true,
         },
       ],
-      // Di chuyển plugin của Paper vào đây
-      "react-native-paper/babel",
-
-      // QUAN TRỌNG: Plugin của Reanimated phải luôn ở cuối cùng
       "react-native-reanimated/plugin",
     ],
-    // Xóa hoàn toàn khối 'env' nếu nó không còn gì khác
   };
 };

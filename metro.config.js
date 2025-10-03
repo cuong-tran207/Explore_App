@@ -1,6 +1,14 @@
 const { getDefaultConfig } = require("expo/metro-config");
-const { withNativeWind } = require("nativewind/metro");
 
 const config = getDefaultConfig(__dirname);
 
-module.exports = withNativeWind(config, { input: "./global.css" });
+config.resolver.alias = {
+  "@components": "./components",
+  "@utils": "./utils",
+  "@store": "./store",
+  "@env": require.resolve("react-native-dotenv"),
+};
+
+config.resolver.sourceExts = ["js", "jsx", "ts", "tsx", "json"];
+
+module.exports = config;

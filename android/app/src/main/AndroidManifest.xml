@@ -24,7 +24,7 @@
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="nghe-an-explore"/>
+        <data android:scheme="explore-expo-go"/>
       </intent-filter>
     </activity>
   </application>
